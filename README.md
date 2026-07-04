@@ -11,7 +11,8 @@
 
 ## Contents
 - `index.html` — 互動式 dashboard（自包含單檔，離線可開）
-- `data/` — 來源 workbook（Excel，資料真值）
+- `data/US-overseas-AI-compute-controls_v2_ZH.xlsx` — 來源 workbook（中文，資料真值）
+- `data/US-overseas-AI-compute-controls_v2_EN.xlsx` — 來源 workbook（英文）
 
 ## 更新方式（不用再丟檔案）
 1. 重新產生 dashboard，覆蓋本機 `index.html`（及/或更新 `data/`）
