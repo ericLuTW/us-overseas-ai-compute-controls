@@ -141,26 +141,34 @@ def build(path, lang, statics):
         tool_cats.setdefault(t["no"], []).append(cat)
 
     # nodecells: node ||| macro -> [light]; and tool -> nodes
-    # node_id "0" marks tools without a supply-chain node -> excluded everywhere
+    # node_id "0" marks tools without a supply-chain node -> excluded everywhere,
+    # EXCEPT baseline (BL-track) tools: framework regimes apply chain-wide, so a
+    # BL tool whose only mapping is "0" is presented on ALL nodes (Eric 2026-09-24).
+    # BL tools with explicit node mappings use those nodes only.
+    all_node_ids = [n["id"] for n in statics["nodes"]]
+    raw_tool_nodes = {}
+    for r in node_rows:
+        t = tools[s(r["tool_id"])]
+        raw_tool_nodes.setdefault(t["no"], []).append(s(r["node_id"]))
+
+    def effective_nodes(t):
+        nids = [n for n in raw_tool_nodes.get(t["no"], []) if n != "0"]
+        if nids:
+            return nids
+        pid = code_of[str(t["no"])]
+        if track_of.get(pid) == "BL":
+            return list(all_node_ids)
+        return []
+
     nodecells = {}
     tool_nodes = {}
-    for r in node_rows:
-        nid = s(r["node_id"])
-        if nid == "0":
-            continue
-        t = tools[s(r["tool_id"])]
-        nodecells.setdefault(nid + "|||" + t["macro"], []).append(light(t))
-        tool_nodes.setdefault(t["no"], []).append(nid)
-
-    # polcells: policy ||| node -> [light] (derived from node×tool via tool's policy)
     polcells = {}
-    for r in node_rows:
-        nid = s(r["node_id"])
-        if nid == "0":
-            continue
-        t = tools[s(r["tool_id"])]
-        pid = code_of[str(t["no"])]
-        polcells.setdefault(pid + "|||" + nid, []).append(light(t))
+    for t in sorted(tools.values(), key=lambda x: x["no"]):
+        for nid in effective_nodes(t):
+            nodecells.setdefault(nid + "|||" + t["macro"], []).append(light(t))
+            tool_nodes.setdefault(t["no"], []).append(nid)
+            pid = code_of[str(t["no"])]
+            polcells.setdefault(pid + "|||" + nid, []).append(light(t))
 
     # bridge: target_category ||| node -> [light] (tools mapped to both)
     bridge = {}
