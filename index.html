@@ -3284,7 +3284,7 @@ class Component extends DCLogic {
       filterBadgeStyle: `font-family:'IBM Plex Mono',monospace;font-size:11px;min-width:18px;height:18px;display:inline-flex;align-items:center;justify-content:center;border-radius:999px;background:${(dirs.length+statuses.length+(s.domains||[]).length)?'#1b2535':'#ded8ca'};color:#fff;padding:0 5px`,
       modeNoun: cm==='status'?this.L.modeStatusLabel:cm==='agency'?this.L.modeAgencyLabel:this.L.modeDirLabel,
       mapSubLabel: this.L.mapSubFn(cm==='status'?this.L.modeStatusLabel:cm==='agency'?this.L.modeAgencyLabel:this.L.modeDirLabel),
-      insightToolsSub: this.L.insightToolsFn(this.policies.length),
+      insightToolsSub: this.L.insightToolsFn(new Set(Object.keys(this.M).map(no=>this.CODE_OF[no])).size),
       t:this.L, lang:s.lang, toZh:()=>this.switchLang('zh'), toEn:()=>this.switchLang('en'),
       langZhStyle:`font-family:'IBM Plex Mono',monospace;font-size:12px;padding:4px 12px;border:none;border-radius:6px;cursor:pointer;background:${s.lang==='zh'?'#1b2535':'transparent'};color:${s.lang==='zh'?'#fff':'#5a5648'};box-shadow:${s.lang==='zh'?'0 1px 2px rgba(27,37,53,.25)':'none'}`,
       langEnStyle:`font-family:'IBM Plex Mono',monospace;font-size:12px;padding:4px 12px;border:none;border-radius:6px;cursor:pointer;background:${s.lang==='en'?'#1b2535':'transparent'};color:${s.lang==='en'?'#fff':'#5a5648'};box-shadow:${s.lang==='en'?'0 1px 2px rgba(27,37,53,.25)':'none'}`,
