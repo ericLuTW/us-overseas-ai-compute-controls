@@ -2444,7 +2444,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
               <div onClick="{{ t.onClick }}" style="display:flex;align-items:flex-start;gap:11px;padding:11px 14px;cursor:pointer" class="tool-row-head">
                 {{ t.chevEl }}
                 <div style="flex:1;min-width:0" class="tool-name">
-                  <div style="font-size:13.5px;line-height:1.45;font-weight:500">{{ t.tool }}</div>
+                  <div style="font-size:13.5px;line-height:1.45;font-weight:500"><span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:#8a8478;margin-right:7px">{{ t.seq }}</span>{{ t.tool }}</div>
                   <div style="font-size:11.5px;color:#8a8478;margin-top:3px">{{ t.item }}</div>
                 </div>
                 <div style="display:flex;align-items:center;gap:8px;flex:0 0 auto" class="tool-meta">
@@ -2542,7 +2542,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
                 <div style="background:#fff;border:1px solid #ece6d8;border-radius:9px;overflow:hidden">
                   <div onClick="{{ t.onClick }}" style="display:flex;align-items:center;gap:10px;padding:10px 12px;cursor:pointer" class="tool-row-head">
                     {{ t.chevEl }}
-                    <div style="flex:1;min-width:0;font-size:13px;line-height:1.4;font-weight:500" class="tool-name">{{ t.tool }}</div>
+                    <div style="flex:1;min-width:0;font-size:13px;line-height:1.4;font-weight:500" class="tool-name"><span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:#8a8478;margin-right:7px">{{ t.seq }}</span>{{ t.tool }}</div>
                     <span style="{{ t.dirStyle }}">{{ t.dirLabel }}</span>
                     <span style="{{ t.statusStyle }}">{{ t.statusLabel }}</span>
                   </div>
@@ -2674,7 +2674,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
               <div onClick="{{ t.onClick }}" style="display:flex;align-items:flex-start;gap:11px;padding:11px 14px;cursor:pointer" class="tool-row-head">
                 {{ t.chevEl }}
                 <div style="flex:1;min-width:0" class="tool-name">
-                  <div style="font-size:13.5px;line-height:1.45;font-weight:500">{{ t.tool }}</div>
+                  <div style="font-size:13.5px;line-height:1.45;font-weight:500"><span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:#8a8478;margin-right:7px">{{ t.seq }}</span>{{ t.tool }}</div>
                   <div style="font-size:11.5px;color:#8a8478;margin-top:3px">{{ t.item }}</div>
                 </div>
                 <div style="display:flex;align-items:center;gap:8px;flex:0 0 auto" class="tool-meta">
@@ -2747,7 +2747,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
             <div style="background:#fff;border:1px solid #ece6d8;border-radius:9px;overflow:hidden">
               <div onClick="{{ t.onClick }}" style="display:flex;align-items:center;gap:10px;padding:10px 12px;cursor:pointer" class="tool-row-head">
                 {{ t.chevEl }}
-                <div style="flex:1;min-width:0;font-size:13px;line-height:1.4;font-weight:500" class="tool-name">{{ t.tool }}</div>
+                <div style="flex:1;min-width:0;font-size:13px;line-height:1.4;font-weight:500" class="tool-name"><span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:#8a8478;margin-right:7px">{{ t.seq }}</span>{{ t.tool }}</div>
                 <span style="{{ t.dirStyle }}">{{ t.dirLabel }}</span>
                 <span style="{{ t.statusStyle }}">{{ t.statusLabel }}</span>
               </div>
@@ -2994,7 +2994,7 @@ class Component extends DCLogic {
     // master tools from cells (full fields)
     const M={}; Object.values(D.cells).forEach(arr=>arr.forEach(t=>{ if(!M[t.no]) M[t.no]=t; })); this.M=M;
     // searchable text per tool: name + 大類 + 細類 + 標的/規格 + 意圖 + 操作 + 對象 + 備註
-    this.STX={}; Object.values(M).forEach(t=>{ this.STX[t.no]=[t.tool,t.macro,t.grp,t.item,t.spec,t.act,t.op,t.appl,t.law,t.dir,t.note].filter(Boolean).join(' ').toLowerCase(); });
+    const dispOf={}; D.pol.forEach(p=>{ dispOf[p.code]=p.disp||''; }); this.STX={}; Object.values(M).forEach(t=>{ const pc=this.CODE_OF[t.no]||''; this.STX[t.no]=[t.tool,t.macro,t.grp,t.item,t.spec,t.act,t.op,t.appl,t.law,t.dir,t.note,pc,dispOf[pc]].filter(Boolean).join(' ').toLowerCase(); });
     // per-node enriched tools (union over macros)
     this.nodesE=D.nodes.map(nd=>{
       const seen={}; const tools=[];
@@ -3017,9 +3017,9 @@ class Component extends DCLogic {
     const seenG=new Set(); this.subtypeList=[];
     D.macros.forEach(m=>{ Object.values(M).forEach(t=>{ if(t.macro===m && t.grp && !seenG.has(t.grp)){ seenG.add(t.grp); this.subtypeList.push({macro:m, grp:t.grp}); } }); });
     // reverse: policy code -> tool numbers
-    this.polTools={}; Object.entries(this.CODE_OF).forEach(([no,code])=>{ if(!M[no])return; (this.polTools[code]=this.polTools[code]||[]).push(+no); });
+    this.polTools={}; Object.entries(this.CODE_OF).forEach(([no,code])=>{ if(!M[no])return; (this.polTools[code]=this.polTools[code]||[]).push(+no); });     this.SEQ={}; Object.values(this.polTools).forEach(list=>list.forEach((no,ix)=>{ this.SEQ[no]='T'+String(ix+1).padStart(2,'0'); }));
     // searchable text per policy: code + 條目 + 背景 + 內容 + 頒布者 + 所含工具(含大類/細類)
-    this.PSTX={}; this.policies.forEach(p=>{ const tt=(this.polTools[p.code]||[]).map(no=>this.STX[no]||'').join(' '); this.PSTX[p.code]=[p.code,p.item,p.bg,p.body,p.who].filter(Boolean).join(' ').toLowerCase()+' '+tt; });
+    this.PSTX={}; this.policies.forEach(p=>{ const tt=(this.polTools[p.code]||[]).map(no=>this.STX[no]||'').join(' '); this.PSTX[p.code]=[p.code,p.disp,p.item,p.bg,p.body,p.who].filter(Boolean).join(' ').toLowerCase()+' '+tt; });
     // matrices
     this.matA={cols:D.macros, rows:D.cats.map(cat=>({label:cat,cells:D.macros.map(m=>(D.cells[cat+'|||'+m]||[]).length)}))};
     // group order for stages
@@ -3119,7 +3119,7 @@ class Component extends DCLogic {
     const link=(this.LINKS[code]||'').split('\n')[0];
     const pol=this.policies.find(p=>p.code===code);
     const codeTitle=pol?`${(pol&&pol.disp)||code} · ${pol.item}`:this.L.viewPolTitle;
-    return { no:it.no, tool:it.tool, item:it.item||m.item||'', code:(pol&&pol.disp)||code||'—', expanded:exp, details:det, srcLink:link, hasSrc:!!link,
+    return { no:it.no, seq:this.SEQ[it.no]||'', tool:it.tool, item:it.item||m.item||'', code:(pol&&pol.disp)||code||'—', expanded:exp, details:det, srcLink:link, hasSrc:!!link,
       onClick:()=>this.setState({[key]: exp?null:it.no}), stop:(e)=>e.stopPropagation(), codeTitle:codeTitle,
       goPol: code?(e)=>{e.preventDefault();e.stopPropagation();this.setState({drawerPol:code});}:(e)=>{e.preventDefault();e.stopPropagation();},
       chev:exp?'▾':'▸', chevStyle:'font-size:9px;color:#a39c8c;flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;width:14px;height:20px',
