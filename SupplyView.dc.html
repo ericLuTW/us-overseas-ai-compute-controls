@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<title>供應鏈版圖</title>
+<script src="./vendor/react.js"></script>
+<script src="./vendor/react-dom.js"></script>
+<script src="./support.js"></script>
+<script src="./assets/dfdd7576b54cc91759c0ad9b20d3b29a.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&amp;family=Noto+Serif+TC:wght@700&amp;display=swap">
+<style>
+body{margin:0}
+</style>
+</helmet>
+<div style="font-family: 'Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei', sans-serif; color: #1f2433; background: #ffffff">
+
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; margin: 0 2px 16px">
+<sc-if value="{{split}}" hint-placeholder-val="{{true}}"><button type="button" aria-pressed="true" onClick="{{toggleSplit}}" style="appearance: none; display: inline-flex; align-items: center; gap: 7px; height: 42px; padding: 0 14px; border: 1px solid #2f3b6f; border-radius: 10px; background: #2f3b6f; font: inherit; font-size: 15px; font-weight: 700; color: #ffffff; cursor: pointer">分開標示適用全鏈的工具</button></sc-if>
+<sc-if value="{{merged}}" hint-placeholder-val="{{false}}"><button type="button" aria-pressed="false" onClick="{{toggleSplit}}" style="appearance: none; display: inline-flex; align-items: center; gap: 7px; height: 42px; padding: 0 14px; border: 1px solid #dde0e5; border-radius: 10px; background: #ffffff; font: inherit; font-size: 15px; color: #5a6070; cursor: pointer">分開標示適用全鏈的工具</button></sc-if>
+</div>
+
+<div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 24px; margin: 0 8px 18px">
+<h2 style="margin: 0; font-size: 18px; font-weight: 700; color: #1f2433">供應鏈各環節的管制工具<span style="font-size: 14px; font-weight: 400; color: #5a6070">　{{nMapped}} 項工具對應 {{nNode}} 個節點</span></h2>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 6px 16px; font-size: 13px; color: #5a6070">
+<sc-for list="{{legend}}" as="d" hint-placeholder-count="5"><span style="display: inline-flex; align-items: center; gap: 6px"><span style="width: 10px; height: 10px; border-radius: 2px; background: {{d.color}}"></span>{{d.label}}</span></sc-for>
+<sc-if value="{{split}}" hint-placeholder-val="{{true}}"><span style="display: inline-flex; align-items: center; gap: 6px"><span style="width: 14px; height: 10px; border-radius: 2px; background: repeating-linear-gradient(135deg, #b9bdc6 0 2px, #eef0f3 2px 5px)"></span>適用全鏈的工具（{{nChain}} 項，每個節點都算入）</span></sc-if>
+</div>
+</div>
+
+<div style="overflow-x: auto; padding: 0 4px 4px">
+<div style="min-width: 1080px; display: grid; grid-template-columns: repeat(15, minmax(0, 1fr)); column-gap: 6px; row-gap: 10px">
+<sc-for list="{{stages}}" as="g" hint-placeholder-count="7"><div style="grid-column: span {{g.span}}; padding: 9px 4px; border: 1px solid #c4a87e; border-radius: 8px; background: #f3eadb; text-align: center; font-size: 13px; font-weight: 700; color: #46361d">{{g.label}}</div></sc-for>
+<sc-for list="{{nodes}}" as="n" hint-placeholder-count="15">
+<button type="button" onClick="{{n.pick}}" aria-pressed="{{n.pressed}}" aria-label="{{n.aria}}" style="appearance: none; display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 10px 4px 12px; border: 1px solid {{n.border}}; border-radius: 10px; background: {{n.bg}}; font: inherit; cursor: pointer">
+<span style="font-size: 21px; font-weight: 700; color: {{n.fg}}">{{n.total}}</span>
+<span style="font-size: 12px; color: #5a6070">{{n.subLine}}</span>
+<span style="display: flex; flex-direction: column-reverse; justify-content: flex-start; width: 40px; height: 260px">
+<sc-for list="{{n.segs}}" as="s" hint-placeholder-count="3"><span style="height: {{s.h}}px; background: {{s.bg}}"></span></sc-for>
+</span>
+<span style="font-size: 11.5px; color: #6b7080">{{n.id}}</span>
+<span style="font-size: 13.5px; font-weight: 700; color: {{n.fg}}; text-align: center; line-height: 1.35">{{n.short}}</span>
+</button>
+</sc-for>
+<sc-if value="{{split}}" hint-placeholder-val="{{true}}">
+<div style="grid-column: span 15; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 18px; padding: 14px 18px; border: 1px solid #c9ccd3; border-radius: 10px; background: repeating-linear-gradient(135deg, #f4f5f7 0 6px, #eceef1 6px 12px)">
+<span style="font-size: 14px; font-weight: 700; color: #1f2433">全鏈適用　基線制度工具 {{nChain}} 項</span>
+<span style="font-size: 13.5px; line-height: 1.6; color: #3a3f4d">{{chainExamples}}</span>
+</div>
+</sc-if>
+</div>
+</div>
+
+<p style="margin: 16px 8px 0; font-size: 13.5px; line-height: 1.7; color: #5a6070">每個節點的數字＝對應到這個節點的工具（圖上「個別」），再加上適用全鏈的 {{nChain}} 項。一項工具可能對應好幾個節點；另有 {{nUnmapped}} 項工具沒有對應到特定節點，不列在圖上。</p>
+
+<sc-if value="{{hasSel}}" hint-placeholder-val="{{false}}">
+<div style="display: flex; flex-direction: column; gap: 12px; margin: 22px 8px 0; padding: 18px 20px; border: 1px solid #c5cbe4; border-radius: 12px; background: #fcfcfe">
+<div style="display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 6px 20px">
+<div style="display: flex; flex-direction: column; gap: 4px">
+<span style="font-size: 12.5px; font-weight: 700; letter-spacing: 0.12em; color: #7a5a2e">供應鏈節點・{{sel.id}}</span>
+<h3 style="margin: 0; font-family: 'Noto Serif TC', serif; font-weight: 700; font-size: 22px; color: #1a2250">{{sel.short}}</h3>
+</div>
+<div style="display: flex; align-items: center; gap: 12px">
+<span style="font-size: 13.5px; color: #5a6070">{{sel.summary}}</span>
+<button type="button" aria-label="清除選取" onClick="{{clear}}" style="appearance: none; flex: none; width: 44px; height: 44px; border: 1px solid #dde0e5; border-radius: 10px; background: #ffffff; font: inherit; font-size: 20px; line-height: 1; color: #5a6070; cursor: pointer">×</button>
+</div>
+</div>
+<sc-for list="{{sel.groups}}" as="g" hint-placeholder-count="5">
+<div style="display: flex; flex-direction: column; gap: 6px">
+<h4 style="margin: 6px 0 0; font-size: 14px; font-weight: 700; color: #213b25">{{g.macro}}　{{g.n}}</h4>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 4px 18px">
+<sc-for list="{{g.tools}}" as="t" hint-placeholder-count="4">
+<button type="button" onClick="{{t.open}}" style="appearance: none; display: flex; align-items: baseline; gap: 10px; padding: 7px 0; border: 0; border-bottom: 1px solid #eceef1; background: none; font: inherit; text-align: left; cursor: pointer"><span style="flex: none; width: 56px; font-size: 12px; font-weight: 700; color: #2f3b6f">{{t.code}}</span><span style="flex: 1 1 auto; font-size: 13.5px; line-height: 1.5; color: #1f2433">{{t.name}}</span><span style="flex: none; display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: #5a6070"><span style="width: 8px; height: 8px; border-radius: 50%; background: {{t.dirColor}}"></span>{{t.tag}}</span></button>
+</sc-for>
+</div>
+</div>
+</sc-for>
+</div>
+</sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"toolOk":{"editor":null},"openPolicy":{"editor":null},"$preview":{"width":1340,"height":900}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { split: true, sel: null };
+  }
+  renderVals() {
+    const B = window.__DATA_ZH || { D: { nodes: [], nodecells: {}, cells: {} }, CODE_OF: {}, CODE2: {} };
+    const D = B.D;
+    const SHORT = { N1: 'EDA／核心 IP', N2: '製造設備', N3: '材料', N4: '設計', N5: '製造（fab）', N6: '封裝測試', N7: 'AI 硬體成品', N8: '機房／網通', N9: '電力水連網', N10: '資料中心建置', N11: '資料中心營運', N12: '算力供給／遠距', N13: '演算法／資料', N14: 'AI 訓練', N15: '終端用途' };
+    const STAGE = { 'Chip Production Inputs': '晶片生產投入', 'Semiconductor Supply Chain': '半導體供應鏈', 'Data Center Infra Inputs': '資料中心基礎投入', 'Hardware Operations': '硬體營運', 'Algorithms and Data': '演算法與資料', 'AI Training': 'AI 訓練', 'End-Use': '終端應用' };
+    const DIRS = [['限制', '#7a1f2b'], ['監測', '#b07a1e'], ['促進', '#1f6f5c'], ['監督制衡', '#6b7280'], ['制度設計', '#6b5b95']];
+    const DIRC = Object.fromEntries(DIRS);
+    const HATCH = 'repeating-linear-gradient(135deg, #b9bdc6 0 2px, #eef0f3 2px 5px)';
+    const PX = 3.4;
+    const full = {}; Object.values(D.cells).forEach((l) => l.forEach((t) => { full[t.no] = t; }));
+    const byNode = {}; D.nodes.forEach((n) => { byNode[n.id] = new Set(); });
+    Object.entries(D.nodecells).forEach(([k, l]) => { const nid = k.split('|||')[0]; if (byNode[nid]) l.forEach((t) => byNode[nid].add(t.no)); });
+    const ids = D.nodes.map((n) => n.id);
+    const chain = ids.length ? [...byNode[ids[0]]].filter((no) => ids.every((id) => byNode[id].has(no))) : [];
+    const chainSet = new Set(chain);
+    const toolOk = this.props.toolOk || (() => true);
+    ids.forEach((id) => { byNode[id] = new Set([...byNode[id]].filter((no) => toolOk(no))); });
+    const nChainOk = chain.filter((no) => toolOk(no)).length;
+    const mapped = new Set(); ids.forEach((id) => byNode[id].forEach((no) => mapped.add(no)));
+    const split = this.state.split; const sel = this.state.sel;
+    const nodes = D.nodes.map((n) => {
+      const all = [...byNode[n.id]]; const own = all.filter((no) => !chainSet.has(no));
+      const segs = [];
+      if (split && nChainOk) segs.push({ h: Math.round(nChainOk * PX), bg: HATCH });
+      const pool = split ? own : all;
+      DIRS.forEach(([d, c]) => { const k = pool.filter((no) => full[no] && full[no].dir === d).length; if (k) segs.push({ h: Math.round(k * PX), bg: c }); });
+      const isSel = sel === n.id;
+      return {
+        id: n.id, short: SHORT[n.id] || n.name, total: all.length,
+        subLine: split ? '個別 ' + own.length : '工具 ' + all.length,
+        segs, pressed: isSel ? 'true' : 'false', aria: n.id + ' ' + (SHORT[n.id] || n.name) + '：' + all.length + ' 項',
+        border: isSel ? '#2f3b6f' : '#eceef1', bg: isSel ? '#f3f4fa' : '#ffffff', fg: isSel ? '#1a2250' : '#1f2433',
+        pick: () => this.setState({ sel: this.state.sel === n.id ? null : n.id })
+      };
+    });
+    const stages = []; D.nodes.forEach((n) => { const last = stages[stages.length - 1]; if (last && last.grp === n.grp) last.span += 1; else stages.push({ grp: n.grp, span: 1, label: STAGE[n.grp] || n.grp }); });
+    const exampleNames = ['受 EAR 管轄物項範圍之一般界定', '最低含量門檻（de minimis）之管轄除外規則', '國家群組目的地分類之一般架構', '實體清單列名之附加許可要求'].filter((nm) => chain.some((no) => full[no] && full[no].tool === nm));
+    let selV = { id: '', short: '', summary: '', groups: [] };
+    if (sel) {
+      const all = [...byNode[sel]].filter((no) => full[no]);
+      const groups = {};
+      all.forEach((no) => { const t = full[no]; (groups[t.macro] = groups[t.macro] || []).push(t); });
+      const order = (D.macros || Object.keys(groups)).filter((m) => groups[m]);
+      selV = {
+        id: sel, short: SHORT[sel] || sel,
+        summary: all.length + ' 項工具（個別 ' + all.filter((no) => !chainSet.has(no)).length + '、全鏈適用 ' + all.filter((no) => chainSet.has(no)).length + '）',
+        groups: order.map((m) => ({
+          macro: m, n: groups[m].length,
+          tools: groups[m].sort((a, b) => a.no - b.no).map((t) => {
+            const pid = B.CODE_OF[String(t.no)];
+            return { code: B.CODE2[pid] || pid, name: t.tool, dirColor: DIRC[t.dir] || '#6b7280', tag: t.dir + (chainSet.has(t.no) ? '・全鏈' : ''), open: () => { if (this.props.openPolicy) this.props.openPolicy(pid); } };
+          })
+        }))
+      };
+    }
+    return {
+      split, merged: !split, toggleSplit: () => this.setState({ split: !this.state.split }),
+      legend: DIRS.map(([label, color]) => ({ label, color })),
+      nChain: nChainOk, nNode: ids.length, nMapped: mapped.size,
+      nUnmapped: Object.keys(B.CODE_OF).filter((no) => toolOk(Number(no))).length - mapped.size,
+      chainExamples: exampleNames.length ? '如：' + exampleNames.join('、') : '',
+      stages, nodes, hasSel: !!sel, sel: selV,
+      clear: () => this.setState({ sel: null })
+    };
+  }
+}
+</script>
+</body>
+</html>

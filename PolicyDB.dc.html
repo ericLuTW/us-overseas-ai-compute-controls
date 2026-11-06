@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<title>政策資料庫</title>
+<script src="./vendor/react.js"></script>
+<script src="./vendor/react-dom.js"></script>
+<script src="./support.js"></script>
+<script src="./assets/dfdd7576b54cc91759c0ad9b20d3b29a.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&amp;family=Noto+Serif+TC:wght@700&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#2f3b6f}a:hover{color:#1a2250}
+[data-pdb-list]{position:sticky;top:12px;z-index:2;max-height:calc(100vh - 24px);overflow-y:auto;background:#ffffff}
+@media (max-width:1040px){[data-pdb-list]{position:static;max-height:46vh;padding-bottom:10px;border-bottom:1px solid #dde0e5}}
+</style>
+</helmet>
+<div style="font-family: 'Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei', sans-serif; color: #1f2433; background: #ffffff">
+<div data-pdb-root="1" style="display: flex; flex-wrap: wrap; align-items: flex-start; gap: 20px; margin: 0 8px">
+
+<div data-pdb-list="1" style="flex: 1 1 360px; max-width: 100%; min-width: 0; display: flex; flex-direction: column; gap: 12px; padding-right: 4px; box-sizing: border-box">
+<div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px">
+<span style="font-size: 13.5px; color: #3a3f4d">{{countLine}}</span>
+<span style="display: inline-flex; gap: 6px"><button type="button" onClick="{{expandAll}}" style="appearance: none; height: 30px; padding: 0 10px; border: 1px solid #d5d9e0; border-radius: 8px; background: #ffffff; font: inherit; font-size: 12.5px; color: #3a3f4d; cursor: pointer">全部展開</button><button type="button" onClick="{{collapseAll}}" style="appearance: none; height: 30px; padding: 0 10px; border: 1px solid #d5d9e0; border-radius: 8px; background: #ffffff; font: inherit; font-size: 12.5px; color: #3a3f4d; cursor: pointer">全部收合</button></span>
+</div>
+<sc-if value="{{selHidden}}" hint-placeholder-val="{{false}}"><p style="margin: 0; padding: 8px 10px; border-radius: 8px; background: #fbf6ec; font-size: 13px; line-height: 1.6; color: #7a5a2e">目前顯示的 {{selCode}} 不在篩選結果中。</p></sc-if>
+<div style="display: flex; flex-direction: column; gap: 10px">
+<sc-for list="{{groups}}" as="g" hint-placeholder-count="5">
+<div style="display: flex; flex-direction: column; gap: 4px">
+<button type="button" aria-expanded="{{g.expanded}}" onClick="{{g.toggle}}" style="appearance: none; display: flex; align-items: center; gap: 8px; width: 100%; min-height: 36px; padding: 6px 10px; border: 0; border-radius: 8px; background: {{g.headBg}}; font: inherit; text-align: left; cursor: pointer"><span style="flex: none; width: 12px; font-size: 11px; color: #5a6070">{{g.chev}}</span><span style="flex: 1 1 auto; font-size: 13px; font-weight: 700; letter-spacing: 0.04em; color: #3a3f4d">{{g.head}}</span><span style="flex: none; font-size: 12.5px; color: #5a6070">{{g.n}}</span></button>
+<sc-if value="{{g.open}}" hint-placeholder-val="{{true}}">
+<sc-for list="{{g.rows}}" as="r" hint-placeholder-count="6">
+<button type="button" data-pdb-sel="{{r.pressed}}" onClick="{{r.pick}}" aria-pressed="{{r.pressed}}" style="appearance: none; display: flex; align-items: baseline; gap: 10px; width: 100%; padding: 9px 10px; border: 1px solid {{r.border}}; border-left: 4px solid {{r.accent}}; border-radius: 8px; background: {{r.bg}}; box-shadow: {{r.shadow}}; font: inherit; text-align: left; cursor: pointer"><span style="flex: none; width: 52px; font-size: 12px; font-weight: 700; color: {{r.codeFg}}">{{r.code}}</span><span style="flex: 1 1 auto; font-size: 13.5px; line-height: 1.5; font-weight: {{r.weight}}; color: {{r.fg}}">{{r.item}}</span><span style="flex: none; width: 8px; height: 8px; margin-top: 6px; border-radius: 50%; background: {{r.dot}}; box-shadow: {{r.dotRing}}" title="{{r.status}}"></span></button>
+</sc-for>
+</sc-if>
+</div>
+</sc-for>
+</div>
+</div>
+
+<div style="flex: 999 1 560px; min-width: 0; padding: 24px 28px; border: 1px solid #dde0e5; border-radius: 14px; background: #fcfcfd; box-sizing: border-box">
+<sc-if value="{{noSel}}" hint-placeholder-val="{{false}}"><p style="margin: 40px 0; text-align: center; font-size: 15px; color: #5a6070">從左側清單選一項政策，這裡顯示全文。</p></sc-if>
+<sc-if value="{{hasSel}}" hint-placeholder-val="{{true}}">
+<div style="display: flex; flex-direction: column; gap: 22px; max-width: 820px">
+
+<div style="display: flex; flex-direction: column; gap: 10px">
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px">
+<span style="font-size: 13px; font-weight: 700; padding: 3px 9px; border-radius: 6px; background: #eef0f6; color: #2f3b6f">{{p.code}}</span>
+<span style="font-size: 12.5px; padding: 3px 10px; border-radius: 999px; background: {{p.stBg}}; color: {{p.stFg}}">{{p.status}}</span>
+<span style="font-size: 12.5px; color: #5a6070">{{p.year}}・{{p.trackLabel}}</span>
+</div>
+<h2 style="margin: 0; font-family: 'Noto Serif TC', serif; font-weight: 700; font-size: 23px; line-height: 1.45; color: #1a2250">{{p.item}}</h2>
+<sc-if value="{{p.hasId}}" hint-placeholder-val="{{true}}"><p style="margin: 0; font-family: ui-monospace, 'SF Mono', Menlo, monospace; font-size: 12.5px; line-height: 1.7; color: #5a6070">{{p.id}}</p></sc-if>
+<sc-if value="{{p.hasNodes}}" hint-placeholder-val="{{true}}"><div style="display: flex; flex-wrap: wrap; gap: 6px"><sc-for list="{{p.nodes}}" as="n" hint-placeholder-count="3"><span style="font-size: 12px; font-weight: 700; padding: 2px 8px; border: 1px solid #dde0e5; border-radius: 5px; color: #3a3f4d" title="{{n.title}}">{{n.id}}</span></sc-for></div></sc-if>
+</div>
+
+<div style="display: flex; flex-direction: column; border-top: 1px solid #eceef1">
+<sc-for list="{{p.meta}}" as="m" hint-placeholder-count="3">
+<div style="display: grid; grid-template-columns: 118px minmax(0, 1fr); gap: 4px 16px; padding: 12px 0; border-bottom: 1px solid #eceef1">
+<span style="font-size: 13px; font-weight: 700; color: #5a6070; padding-top: 3px">{{m.label}}</span>
+<div style="font-size: 14px; color: #1f2433">
+<sc-for list="{{m.lines}}" as="ln" hint-placeholder-count="2">
+<sc-if value="{{ln.isP}}" hint-placeholder-val="{{true}}"><div style="padding: 3px 0; line-height: 1.75"><sc-for list="{{ln.segs}}" as="g" hint-placeholder-count="1"><sc-if value="{{g.code}}" hint-placeholder-val="{{false}}"><code style="font-family: ui-monospace, 'SF Mono', Menlo, monospace; font-size: 0.9em; background: #efece2; color: #3a4250; padding: 0 4px; border-radius: 3px; white-space: nowrap">{{g.t}}</code></sc-if><sc-if value="{{g.plain}}" hint-placeholder-val="{{true}}">{{g.t}}</sc-if></sc-for></div></sc-if>
+<sc-if value="{{ln.isB}}" hint-placeholder-val="{{false}}"><div style="display: flex; gap: 9px; padding: 3px 0; line-height: 1.75; align-items: flex-start"><span style="flex: none; width: 5px; height: 5px; border-radius: 99px; background: #b07a1e; margin-top: 10px"></span><span style="flex: 1 1 auto"><sc-for list="{{ln.segs}}" as="g" hint-placeholder-count="1"><sc-if value="{{g.code}}" hint-placeholder-val="{{false}}"><code style="font-family: ui-monospace, 'SF Mono', Menlo, monospace; font-size: 0.9em; background: #efece2; color: #3a4250; padding: 0 4px; border-radius: 3px; white-space: nowrap">{{g.t}}</code></sc-if><sc-if value="{{g.plain}}" hint-placeholder-val="{{true}}">{{g.t}}</sc-if></sc-for></span></div></sc-if>
+</sc-for>
+</div>
+</div>
+</sc-for>
+</div>
+
+<sc-for list="{{p.blocks}}" as="b" hint-placeholder-count="3">
+<section style="display: flex; flex-direction: column; gap: 6px">
+<h3 style="margin: 0; font-size: 12.5px; font-weight: 700; letter-spacing: 0.08em; color: #7a5a2e">{{b.label}}</h3>
+<div style="font-size: 14px; color: #1f2433">
+<sc-for list="{{b.lines}}" as="ln" hint-placeholder-count="4">
+<sc-if value="{{ln.isP}}" hint-placeholder-val="{{true}}"><div style="padding: 3px 0; line-height: 1.8"><sc-for list="{{ln.segs}}" as="g" hint-placeholder-count="1"><sc-if value="{{g.code}}" hint-placeholder-val="{{false}}"><code style="font-family: ui-monospace, 'SF Mono', Menlo, monospace; font-size: 0.9em; background: #efece2; color: #3a4250; padding: 0 4px; border-radius: 3px; white-space: nowrap">{{g.t}}</code></sc-if><sc-if value="{{g.plain}}" hint-placeholder-val="{{true}}">{{g.t}}</sc-if></sc-for></div></sc-if>
+<sc-if value="{{ln.isB}}" hint-placeholder-val="{{false}}"><div style="display: flex; gap: 9px; padding: 3px 0; line-height: 1.8; align-items: flex-start"><span style="flex: none; width: 5px; height: 5px; border-radius: 99px; background: #b07a1e; margin-top: 11px"></span><span style="flex: 1 1 auto"><sc-for list="{{ln.segs}}" as="g" hint-placeholder-count="1"><sc-if value="{{g.code}}" hint-placeholder-val="{{false}}"><code style="font-family: ui-monospace, 'SF Mono', Menlo, monospace; font-size: 0.9em; background: #efece2; color: #3a4250; padding: 0 4px; border-radius: 3px; white-space: nowrap">{{g.t}}</code></sc-if><sc-if value="{{g.plain}}" hint-placeholder-val="{{true}}">{{g.t}}</sc-if></sc-for></span></div></sc-if>
+<sc-if value="{{ln.isN}}" hint-placeholder-val="{{false}}"><div style="display: flex; gap: 8px; padding: 2px 0 2px 22px; line-height: 1.8"><span style="flex: none; color: #6b6458; font-variant-numeric: tabular-nums">{{ln.label}}</span><span style="flex: 1 1 auto"><sc-for list="{{ln.segs}}" as="g" hint-placeholder-count="1"><sc-if value="{{g.code}}" hint-placeholder-val="{{false}}"><code style="font-family: ui-monospace, 'SF Mono', Menlo, monospace; font-size: 0.9em; background: #efece2; color: #3a4250; padding: 0 4px; border-radius: 3px; white-space: nowrap">{{g.t}}</code></sc-if><sc-if value="{{g.plain}}" hint-placeholder-val="{{true}}">{{g.t}}</sc-if></sc-for></span></div></sc-if>
+<sc-if value="{{ln.isK}}" hint-placeholder-val="{{false}}"><div style="display: flex; gap: 10px; padding: 3px 0; line-height: 1.8"><span style="flex: none; color: #46361d; font-weight: 700">{{ln.label}}</span><span style="flex: 1 1 auto"><sc-for list="{{ln.segs}}" as="g" hint-placeholder-count="1"><sc-if value="{{g.code}}" hint-placeholder-val="{{false}}"><code style="font-family: ui-monospace, 'SF Mono', Menlo, monospace; font-size: 0.9em; background: #efece2; color: #3a4250; padding: 0 4px; border-radius: 3px; white-space: nowrap">{{g.t}}</code></sc-if><sc-if value="{{g.plain}}" hint-placeholder-val="{{true}}">{{g.t}}</sc-if></sc-for></span></div></sc-if>
+</sc-for>
+</div>
+</section>
+</sc-for>
+
+<sc-if value="{{p.hasLinks}}" hint-placeholder-val="{{true}}">
+<section style="display: flex; flex-direction: column; gap: 6px"><h3 style="margin: 0; font-size: 12.5px; font-weight: 700; letter-spacing: 0.08em; color: #7a5a2e">來源連結</h3>
+<sc-for list="{{p.links}}" as="l" hint-placeholder-count="2"><a href="{{l.href}}" target="_blank" rel="noopener noreferrer" style="font-size: 13.5px; line-height: 1.7; word-break: break-all">{{l.href}}</a></sc-for>
+</section>
+</sc-if>
+
+<section style="display: flex; flex-direction: column; gap: 8px">
+<h3 style="margin: 0; font-size: 12.5px; font-weight: 700; letter-spacing: 0.08em; color: #7a5a2e">包含工具（{{p.nTool}}）<span style="margin-left: 8px; font-weight: 400; letter-spacing: 0; color: #5a6070">{{p.toolNote}}</span></h3>
+<sc-for list="{{p.tools}}" as="t" hint-placeholder-count="4">
+<div style="border: 1px solid {{t.border}}; border-radius: 12px; background: #ffffff; overflow: hidden; opacity: {{t.opacity}}">
+<button type="button" aria-expanded="{{t.open}}" onClick="{{t.toggle}}" style="appearance: none; display: flex; align-items: center; gap: 12px; width: 100%; min-height: 48px; padding: 10px 14px; border: 0; background: {{t.headBg}}; font: inherit; text-align: left; cursor: pointer"><span style="flex: none; font-size: 12px; font-weight: 700; color: #2f3b6f">{{t.idx}}</span><span style="flex: 1 1 auto; font-size: 14px; line-height: 1.5; color: #1f2433">{{t.name}}<sc-if value="{{t.off}}" hint-placeholder-val="{{false}}"><span style="margin-left: 8px; font-size: 12px; color: #8a5d12">不符合目前篩選</span></sc-if></span><span style="flex: none; display: inline-flex; align-items: center; gap: 6px; font-size: 12.5px; color: #5a6070"><span style="width: 8px; height: 8px; border-radius: 50%; background: {{t.dirColor}}"></span>{{t.dir}}・{{t.macro}}</span></button>
+<sc-if value="{{t.open}}" hint-placeholder-val="{{false}}">
+<div style="display: flex; flex-direction: column; padding: 4px 16px 12px">
+<sc-for list="{{t.fields}}" as="f" hint-placeholder-count="5">
+<div style="display: grid; grid-template-columns: 118px minmax(0, 1fr); gap: 4px 16px; padding: 10px 0; border-bottom: 1px solid #f0f1f4">
+<span style="font-size: 12.5px; font-weight: 700; color: #5a6070; padding-top: 3px">{{f.label}}</span>
+<div style="font-size: 13.5px; color: #1f2433">
+<sc-for list="{{f.lines}}" as="ln" hint-placeholder-count="2">
+<sc-if value="{{ln.isP}}" hint-placeholder-val="{{true}}"><div style="padding: 3px 0; line-height: 1.75"><sc-for list="{{ln.segs}}" as="g" hint-placeholder-count="1"><sc-if value="{{g.code}}" hint-placeholder-val="{{false}}"><code style="font-family: ui-monospace, 'SF Mono', Menlo, monospace; font-size: 0.9em; background: #efece2; color: #3a4250; padding: 0 4px; border-radius: 3px; white-space: nowrap">{{g.t}}</code></sc-if><sc-if value="{{g.plain}}" hint-placeholder-val="{{true}}">{{g.t}}</sc-if></sc-for></div></sc-if>
+<sc-if value="{{ln.isB}}" hint-placeholder-val="{{false}}"><div style="display: flex; gap: 9px; padding: 3px 0; line-height: 1.75; align-items: flex-start"><span style="flex: none; width: 5px; height: 5px; border-radius: 99px; background: #b07a1e; margin-top: 10px"></span><span style="flex: 1 1 auto"><sc-for list="{{ln.segs}}" as="g" hint-placeholder-count="1"><sc-if value="{{g.code}}" hint-placeholder-val="{{false}}"><code style="font-family: ui-monospace, 'SF Mono', Menlo, monospace; font-size: 0.9em; background: #efece2; color: #3a4250; padding: 0 4px; border-radius: 3px; white-space: nowrap">{{g.t}}</code></sc-if><sc-if value="{{g.plain}}" hint-placeholder-val="{{true}}">{{g.t}}</sc-if></sc-for></span></div></sc-if>
+</sc-for>
+</div>
+</div>
+</sc-for>
+</div>
+</sc-if>
+</div>
+</sc-for>
+</section>
+
+</div>
+</sc-if>
+</div>
+
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"selected":{"editor":null,"default":null},"focus":{"editor":null,"default":false},"polOk":{"editor":null},"toolOk":{"editor":null},"filtered":{"editor":null,"default":false},"openPolicy":{"editor":null},"$preview":{"width":1340,"height":1100}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { sel: props.selected || null, openTool: null, closed: props.focus ? this.closedExcept(props.selected) : {} };
+    this.needScroll = !!(props.focus && props.selected);
+  }
+  // Arriving from another tab (focus): keep only the selected policy's track open.
+  closedExcept(code) {
+    const B = window.__DATA_ZH; if (!B || !code) return {};
+    const P = B.D.pol.find((p) => p.code === code); const out = {};
+    B.TRACKS.forEach((t) => { if (!P || t.code !== P.track) out[t.code] = true; });
+    return out;
+  }
+  componentDidMount() { if (this.needScroll) this.scrollToSel(); }
+  componentDidUpdate(prev) {
+    if (prev.selected !== this.props.selected && this.props.selected) {
+      this.setState({ sel: this.props.selected, openTool: null, closed: this.props.focus ? this.closedExcept(this.props.selected) : this.state.closed });
+      if (this.props.focus) this.needScroll = true;
+    }
+    if (this.needScroll) this.scrollToSel();
+  }
+  scrollToSel() {
+    this.needScroll = false;
+    setTimeout(() => {
+      const root = document.querySelector('[data-pdb-root]');
+      if (root) window.scrollTo(0, Math.max(0, root.getBoundingClientRect().top + window.scrollY - 12));
+      const list = document.querySelector('[data-pdb-list]'); const row = document.querySelector('[data-pdb-sel="true"]');
+      if (list && row) list.scrollTop += row.getBoundingClientRect().top - list.getBoundingClientRect().top - 120;
+    }, 60);
+  }
+  renderVals() {
+    const B = window.__DATA_ZH || { D: { pol: [], cells: {}, polcells: {} }, CODE_OF: {}, CODE2: {}, LINKS: {}, TRACKS: [] };
+    const D = B.D;
+    const bucket = (p) => (p || '').startsWith('T5') ? '現行生效' : ((p || '').startsWith('T1') ? '已撤銷' : '推進中');
+    const ST = { '現行生效': ['#e6f2ef', '#1f6f5c', '現行生效'], '推進中': ['#f7eedc', '#8a5d12', '推進中'], '已撤銷': ['#eef0f3', '#5a6070', '已撤銷／失效'] };
+    const DOT = { '現行生效': '#1f6f5c', '推進中': '#b07a1e', '已撤銷': '#9aa0ab' };
+    const DIRC = { '限制': '#7a1f2b', '監測': '#b07a1e', '促進': '#1f6f5c', '監督制衡': '#6b7280', '制度設計': '#6b5b95' };
+
+    // ---- text structuring (ported from the previous dashboard's detailNode / sectionEl / progNode / techNodes) ----
+    const TECH = /(?:[<>≤≥＜＞]\s?)?\d[\d.,]*\s?(?:nm|Kelvin|petaflops|PF|FP64|FP32|層|次運算|GB\/s|TB|GB)|10\^\d+|(?:ECCN\s?)?\d[A-E]\d{3}(?:\.[a-z0-9]+)*|§\s?\d[\d.]*/g;
+    const segs = (str) => {
+      str = str == null ? '' : String(str); const out = []; let last = 0; let m; TECH.lastIndex = 0;
+      while ((m = TECH.exec(str))) { if (m.index > last) out.push({ t: str.slice(last, m.index), code: false, plain: true }); out.push({ t: m[0], code: true, plain: false }); last = m.index + m[0].length; }
+      if (last < str.length) out.push({ t: str.slice(last), code: false, plain: true });
+      return out;
+    };
+    const P_ = (t) => ({ isP: true, isB: false, isN: false, isK: false, label: '', segs: segs(t) });
+    const B_ = (t) => ({ isP: false, isB: true, isN: false, isK: false, label: '', segs: segs(t) });
+    const N_ = (label, t) => ({ isP: false, isB: false, isN: true, isK: false, label, segs: segs(t) });
+    const K_ = (label, t) => ({ isP: false, isB: false, isN: false, isK: true, label, segs: segs(t) });
+    const splitTop = (s, re) => {
+      const out = []; let buf = ''; let d = 0; const op = '（(【〔['; const cl = '）)】〕]';
+      for (const ch of s) {
+        if (op.includes(ch)) d++; else if (cl.includes(ch)) d = Math.max(0, d - 1);
+        if (d === 0 && re.test(ch)) { if (buf.trim()) out.push(buf.trim()); buf = ''; } else buf += ch;
+      }
+      if (buf.trim()) out.push(buf.trim()); return out;
+    };
+    const detailLines = (text) => {
+      text = (text == null ? '' : String(text)).trim(); if (!text) return [];
+      const items = [];
+      text.split(/\n+/).map((l) => l.trim()).filter(Boolean).forEach((line) => {
+        const isB = /^[・·•]/.test(line); const body = line.replace(/^[・·•]\s*/, '');
+        let parts = splitTop(body, /[；;]/);
+        const doSplit = parts.length >= 3 || (parts.length === 2 && body.length > 60);
+        if (doSplit) {
+          let lead = ''; const first = parts[0]; const ci = first.lastIndexOf('：');
+          if (ci > 0 && ci < first.length - 1) { lead = first.slice(0, ci + 1); parts = parts.slice(); parts[0] = first.slice(ci + 1).trim(); }
+          else if (ci === first.length - 1) { lead = first; parts = parts.slice(1); }
+          if (lead) items.push(P_(lead));
+          parts.forEach((sg) => items.push(B_(sg)));
+        } else if (isB) items.push(B_(body));
+        else items.push(P_(body));
+      });
+      return items;
+    };
+    const CN = { '一': 1, '二': 2, '兩': 2, '三': 3, '四': 4, '五': 5, '六': 6, '七': 7, '八': 8, '九': 9, '十': 10 };
+    const announce = (s) => { if (/[：:]/.test(s) || s.length > 18) return 0; const m = s.match(/([0-9]+|[一二三四五六七八九十兩])\s*項/); if (!m) return 0; return /[0-9]/.test(m[1]) ? parseInt(m[1], 10) : (CN[m[1]] || 0); };
+    const sectionLines = (text) => {
+      const numRe = /^[（(]\s*([0-9０-９一二三四五六七八九十]+)\s*[）)]\s*/;
+      const items = []; let auto = 0; let autoMax = 0;
+      (text || '').split('\n').filter((l) => l.trim() !== '').forEach((l) => {
+        const t = l.trim().replace(/^[・·•]\s*/, '');
+        const nm = t.match(numRe);
+        if (nm) { auto = 0; items.push(N_('(' + nm[1] + ')', t.slice(nm[0].length))); return; }
+        const lm = t.match(/^([^：:，、\s]{2,6})[：:]\s*/);
+        if (lm) { auto = 0; items.push(K_(lm[1], t.slice(lm[0].length))); return; }
+        if (auto > 0 && auto <= autoMax) { const n = auto; auto++; items.push(N_(n + '.', t)); return; }
+        if (splitTop(t, /[；;]/).length >= 3) { auto = 0; detailLines(t).forEach((x) => items.push(x)); return; }
+        items.push(B_(t));
+        const an = announce(t); if (an >= 2) { auto = 1; autoMax = an; }
+      });
+      return items;
+    };
+    const progLines = (v) => {
+      v = String(v == null ? '' : v).trim(); if (!v) return [P_('—')];
+      if (/[・\n]/.test(v)) return detailLines(v.replace(/\s*・\s*/g, '\n・').replace(/\n\s*[-–]\s+/g, '\n・'));
+      const seps = /[；;、]/;
+      const m = v.match(/^(.*?(?:——| — |—|：|:))\s*/);
+      if (m) { const lead = m[1].replace(/[———：:\s]+$/, '').trim(); const parts = splitTop(v.slice(m[0].length), seps); if (lead && parts.length >= 2) return detailLines([lead].concat(parts.map((x) => '・' + x)).join('\n')); }
+      const pm = v.match(/^\s*([^（(]+?)\s*[（(]([\s\S]+)[）)]\s*$/);
+      if (pm) { const lead = pm[1].trim(); const parts = splitTop(pm[2].trim(), seps); if (lead && parts.length >= 1) return detailLines([lead].concat(parts.map((x) => '・' + x)).join('\n')); }
+      return [P_(v)];
+    };
+
+    const s = this.state;
+    const polOk = this.props.polOk || (() => true);
+    const toolOk = this.props.toolOk || (() => true);
+    const filtered = !!this.props.filtered;
+    const usedTracks = B.TRACKS.filter((t) => D.pol.some((p) => p.track === t.code));
+    const shown = D.pol.filter((p) => polOk(p.code));
+    const groups = usedTracks.map((t) => {
+      const rows = shown.filter((p) => p.track === t.code);
+      const open = !s.closed[t.code];
+      return {
+        head: t.code + '　' + t.zh, n: String(rows.length), open, expanded: open ? 'true' : 'false', chev: open ? '▾' : '▸',
+        headBg: open ? '#eef0f3' : '#f6f7f9',
+        toggle: () => this.setState({ closed: Object.assign({}, this.state.closed, { [t.code]: open }) }),
+        rows: rows.map((p) => {
+          const on = s.sel === p.code; const b = bucket(p.prog);
+          return {
+            code: p.disp, item: p.item, status: ST[b][2], dot: DOT[b], pressed: on ? 'true' : 'false',
+            border: on ? '#1a2250' : '#eceef1', accent: on ? '#b07a1e' : '#eceef1', bg: on ? '#2f3b6f' : '#ffffff',
+            shadow: on ? '0 2px 8px rgba(26, 34, 80, 0.28)' : 'none', fg: on ? '#ffffff' : '#1f2433', codeFg: on ? '#f3d9a8' : '#2f3b6f',
+            weight: on ? 700 : 400, dotRing: on ? '0 0 0 2px #ffffff' : 'none',
+            pick: () => this.setState({ sel: p.code, openTool: null })
+          };
+        })
+      };
+    }).filter((g) => g.rows.length > 0);
+    const allClosed = {}; usedTracks.forEach((t) => { allClosed[t.code] = true; });
+    const selP = D.pol.find((p) => p.code === s.sel);
+
+    const P = D.pol.find((p) => p.code === s.sel);
+    let pv = { toolNote: '', code: '', status: '', stBg: '', stFg: '', year: '', trackLabel: '', item: '', id: '', hasId: false, nodes: [], hasNodes: false, meta: [], blocks: [], links: [], hasLinks: false, nTool: 0, tools: [] };
+    if (P) {
+      const full = {}; Object.values(D.cells).forEach((l) => l.forEach((t) => { full[t.no] = t; }));
+      const tools = Object.values(full).filter((t) => B.CODE_OF[String(t.no)] === P.code).sort((a, b) => a.no - b.no);
+      const st = ST[bucket(P.prog)];
+      const tr = B.TRACKS.find((t) => t.code === P.track);
+      const nodeName = {}; (D.nodes || []).forEach((n) => { nodeName[n.id] = n.name; });
+      const nodes = [...new Set(Object.keys(D.polcells || {}).filter((k) => k.split('|||')[0] === P.code).map((k) => k.split('|||')[1]))]
+        .sort((a, b) => parseInt(a.slice(1), 10) - parseInt(b.slice(1), 10));
+      const FIELDS = [['act', '工具作用'], ['op', '操作方式'], ['appl', '適用對象'], ['trig', '觸發要件／門檻'], ['spec', '具體標的'], ['impl', '實施機關'], ['law', '授權／制定主體'], ['note', '備註']];
+      pv = {
+        code: P.disp, status: st[2], stBg: st[0], stFg: st[1], year: P.year || '', trackLabel: tr ? tr.zh : P.track, item: P.item,
+        id: P.id || '', hasId: !!P.id,
+        nodes: nodes.map((id) => ({ id, title: nodeName[id] || id })), hasNodes: nodes.length > 0,
+        meta: [['進度', progLines(P.prog)], ['頒布者／提案人', [P_(P.who || '—')]], ['日期', [P_(P.date || '—')]]].map(([label, lines]) => ({ label, lines })),
+        blocks: [['背景與脈絡', P.bg], ['內容', P.body], ['法源', P.law]].filter((m) => m[1]).map(([label, v]) => ({ label, lines: label === '法源' ? sectionLines(splitTop(String(v), /[。]/).join('\n')) : sectionLines(v) })),
+        links: (B.LINKS[P.code] || '').split('\n').map((x) => x.trim()).filter(Boolean).map((href) => ({ href })),
+        nTool: tools.length,
+        toolNote: filtered ? '符合目前篩選 ' + tools.filter((t) => toolOk(t.no)).length + ' 項' : '',
+        tools: tools.map((t, i) => {
+          const on = s.openTool === t.no; const off = filtered && !toolOk(t.no);
+          return {
+            off, opacity: off ? 0.5 : 1,
+            idx: 'T' + String(i + 1).padStart(2, '0'), name: t.tool, dir: t.dir, macro: t.macro, dirColor: DIRC[t.dir] || '#6b7280',
+            open: on, border: on ? '#91b48f' : '#e3e6ea', headBg: on ? '#f3f8f2' : '#ffffff',
+            toggle: () => this.setState({ openTool: on ? null : t.no }),
+            fields: [['grp', '工具群組']].concat(FIELDS).filter(([k]) => t[k]).map(([k, label]) => ({ label, lines: detailLines(t[k]) }))
+          };
+        })
+      };
+      pv.hasLinks = pv.links.length > 0;
+    }
+    return {
+      groups,
+      countLine: (filtered ? '符合篩選 ' : '顯示 ') + shown.length + ' / ' + D.pol.length + ' 項政策',
+      expandAll: () => this.setState({ closed: {} }), collapseAll: () => this.setState({ closed: allClosed }),
+      selHidden: !!selP && !polOk(selP.code), selCode: selP ? selP.disp : '',
+      noSel: !P, hasSel: !!P, p: pv
+    };
+  }
+}
+</script>
+</body>
+</html>
