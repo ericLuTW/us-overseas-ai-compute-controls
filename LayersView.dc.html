@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<title>制度層級</title>
+<script src="./vendor/react.js"></script>
+<script src="./vendor/react-dom.js"></script>
+<script src="./support.js"></script>
+<script src="./assets/dfdd7576b54cc91759c0ad9b20d3b29a.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&amp;family=Noto+Serif+TC:wght@700&amp;display=swap">
+<style>
+body{margin:0}
+</style>
+</helmet>
+<div style="font-family: 'Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei', sans-serif; color: #1f2433; background: #ffffff">
+
+<div style="display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 24px; margin: 0 8px 12px">
+<h2 style="margin: 0; font-size: 18px; font-weight: 700; color: #1f2433">制度層級<span style="font-size: 14px; font-weight: 400; color: #5a6070">　{{hint}}</span></h2>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 6px 14px; font-size: 13px; color: #5a6070">
+<span style="display: inline-flex; align-items: center; gap: 6px"><span style="width: 22px; height: 14px; border: 1px solid #8a909c; border-radius: 3px; background: #ffffff"></span>現行</span>
+<span style="display: inline-flex; align-items: center; gap: 6px"><span style="width: 22px; height: 14px; border: 1px dashed #8a909c; border-radius: 3px; background: #ffffff"></span>推進中</span>
+<span style="display: inline-flex; align-items: center; gap: 6px"><span style="width: 22px; height: 14px; border: 1px solid #c9ccd3; border-radius: 3px; background: #eef0f3"></span>已撤銷</span>
+<span style="display: inline-flex; align-items: center; gap: 6px"><span style="width: 8px; height: 8px; border: 1.2px solid #6b7080; border-radius: 50%; background: #ffffff"></span>未引用任何基線</span>
+</div>
+</div>
+
+<div style="display: flex; flex-direction: column; margin: 0 8px">
+
+<div style="display: flex; flex-wrap: wrap; gap: 12px 18px; padding: 16px; border: 1px solid #dde0e5; border-radius: 12px; background: #ffffff">
+<div style="flex: 0 0 120px; display: flex; flex-direction: column; gap: 2px">
+<span style="font-size: 15px; font-weight: 700; color: #1f2433">針對性管制</span>
+<span style="font-size: 13px; color: #5a6070">{{targetedLine}}</span>
+</div>
+<div style="flex: 999 1 600px; min-width: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px">
+<sc-for list="{{tracks}}" as="t" hint-placeholder-count="4">
+<div style="display: flex; flex-direction: column; gap: 8px">
+<span style="font-size: 13px; font-weight: 700; color: #3a3f4d">{{t.head}}</span>
+<div style="display: flex; flex-wrap: wrap; gap: 5px">
+<sc-for list="{{t.chips}}" as="c" hint-placeholder-count="8">
+<button type="button" onClick="{{c.open}}" aria-label="{{c.aria}}" style="appearance: none; position: relative; font: inherit; font-size: 12px; font-weight: 700; padding: {{c.pad}}; border: {{c.border}}; border-radius: 4px; background: {{c.bg}}; color: {{c.fg}}; cursor: pointer">{{c.label}}<sc-if value="{{c.ring}}" hint-placeholder-val="{{false}}"><span style="position: absolute; top: -4px; right: -4px; width: 7px; height: 7px; border: 1.2px solid #6b7080; border-radius: 50%; background: #ffffff"></span></sc-if></button>
+</sc-for>
+</div>
+</div>
+</sc-for>
+</div>
+</div>
+
+<div style="display: flex; align-items: center; gap: 8px; padding: 6px 0 6px 136px; font-size: 12.5px; color: #7a5a2e"><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M6 1L11 9H1Z" fill="#b08a4e"></path></svg>上方政策引用下方的基線制度（例如把企業列入實體清單、適用國家群組），或後來修訂了它</div>
+
+<div style="display: flex; flex-wrap: wrap; gap: 12px 18px; padding: 16px; border: 1px solid #e5d0ac; border-radius: 12px; background: #fbf7f0">
+<div style="flex: 0 0 120px; display: flex; flex-direction: column; gap: 2px">
+<span style="font-size: 15px; font-weight: 700; color: #46361d">基線制度</span>
+<span style="font-size: 13px; color: #6b5a3a">{{nBase}} 項・出口管理條例（EAR）原有規則</span>
+</div>
+<div style="flex: 999 1 600px; min-width: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 8px">
+<sc-for list="{{bases}}" as="b" hint-placeholder-count="8">
+<button type="button" onClick="{{b.pick}}" aria-pressed="{{b.pressed}}" style="appearance: none; display: flex; flex-direction: column; align-items: flex-start; gap: 6px; padding: 10px 12px; border: 1px solid {{b.border}}; border-radius: 10px; background: {{b.bg}}; font: inherit; text-align: left; cursor: pointer"><span style="font-size: 11.5px; font-weight: 700; color: {{b.codeFg}}">{{b.code}}</span><span style="font-size: 13.5px; font-weight: 700; line-height: 1.4; color: {{b.fg}}">{{b.name}}</span><span style="font-size: 12.5px; color: {{b.fg}}">{{b.metric}}</span></button>
+</sc-for>
+</div>
+</div>
+
+<div style="display: flex; align-items: center; gap: 8px; padding: 6px 0 6px 136px; font-size: 12.5px; color: #4a5797"><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M6 1L11 9H1Z" fill="#4a5797"></path></svg>基線制度目前的法律依據（只表示依據關係，不代表時間先後）</div>
+
+<div style="display: flex; flex-wrap: wrap; gap: 12px 18px; padding: 16px; border: 1px solid #c5cbe4; border-radius: 12px; background: #f3f4fa">
+<div style="flex: 0 0 120px; display: flex; flex-direction: column; gap: 2px">
+<span style="font-size: 15px; font-weight: 700; color: #1a2250">依據</span>
+<span style="font-size: 13px; color: #4a5797">2 項</span>
+</div>
+<div style="flex: 999 1 600px; min-width: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 8px">
+<button type="button" onClick="{{ecra.pick}}" aria-pressed="{{ecra.pressed}}" style="appearance: none; display: flex; flex-direction: column; align-items: flex-start; gap: 6px; padding: 12px 14px; border: 1px solid {{ecra.border}}; border-radius: 10px; background: {{ecra.bg}}; font: inherit; text-align: left; cursor: pointer"><span style="font-size: 11.5px; font-weight: 700; color: {{ecra.codeFg}}">BL-01・美國法律授權</span><span style="font-size: 14px; font-weight: 700; color: {{ecra.fg}}">{{ecra.name}}</span><span style="font-size: 12.5px; line-height: 1.6; color: {{ecra.fg}}">BL-02～09 目前都以這部法律為依據・另有 {{ecra.n}} 項針對性政策引用它</span></button>
+<div style="display: flex; flex-direction: column; align-items: flex-start; gap: 6px; padding: 12px 14px; border: 1px solid #8f99c8; border-radius: 10px; background: #ffffff"><span style="font-size: 11.5px; font-weight: 700; color: #4a5797">BL-10・國際協定</span><span style="font-size: 14px; font-weight: 700; color: #1a2250">{{wass}}</span><span style="font-size: 12.5px; line-height: 1.6; color: #2f3b6f">BL-03 的管制項目以這項協定為國際基礎，不屬於 ECRA 的授權</span></div>
+</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 6px; margin-top: 12px; font-size: 13px; line-height: 1.7; color: #5a6070">
+<p style="margin: 0">ECRA 是 2018 年才制定的，比 1996 年起的 EAR 基線規則晚。這些基線規則最初依據出口管理法（EAA）；EAA 在 1994 年到期後，改由總統行政命令依 IEEPA 維持效力，2018 年起才由 ECRA 正式授權。</p>
+<p style="margin: 0">未引用任何基線的政策（{{nUnlinked}} 項）：多半另有法律依據，例如總統依憲法第 2 條發布的行政命令、IEEPA、貿易擴張法第 232 條、CHIPS 與科學法；或是要求行政部門提出報告、推動產業的法案。EB-11（2009 年 BIS 對雲端運算的諮詢意見）的法源雖是 EAR 第 734 部，但沒有對應到特定的基線制度。</p>
+</div>
+</div>
+
+<sc-if value="{{hasSel}}" hint-placeholder-val="{{false}}">
+<div style="display: flex; flex-direction: column; gap: 12px; margin: 22px 8px 0; padding: 18px 20px; border: 1px solid #c5cbe4; border-radius: 12px; background: #fcfcfe">
+<div style="display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 6px 20px">
+<div style="display: flex; flex-direction: column; gap: 4px">
+<span style="font-size: 12.5px; font-weight: 700; letter-spacing: 0.12em; color: #7a5a2e">{{detail.kicker}}</span>
+<h3 style="margin: 0; font-family: 'Noto Serif TC', serif; font-weight: 700; font-size: 22px; color: #1a2250">{{detail.name}}</h3>
+</div>
+<div style="display: flex; align-items: center; gap: 12px">
+<span style="font-size: 13.5px; color: #5a6070">{{detail.summary}}</span>
+<button type="button" aria-label="清除選取" onClick="{{clear}}" style="appearance: none; flex: none; width: 44px; height: 44px; border: 1px solid #dde0e5; border-radius: 10px; background: #ffffff; font: inherit; font-size: 20px; line-height: 1; color: #5a6070; cursor: pointer">×</button>
+</div>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 6px 18px">
+<sc-for list="{{detail.rows}}" as="r" hint-placeholder-count="6">
+<button type="button" onClick="{{r.open}}" style="appearance: none; display: flex; align-items: baseline; gap: 10px; padding: 7px 0; border: 0; border-bottom: 1px solid #eceef1; background: none; font: inherit; text-align: left; cursor: pointer"><span style="flex: none; width: 56px; font-size: 12px; font-weight: 700; color: #2f3b6f">{{r.code}}</span><span style="flex: 1 1 auto; font-size: 13.5px; line-height: 1.5; color: #1f2433">{{r.item}}</span><span style="flex: none; font-size: 12px; color: {{r.stFg}}">{{r.year}}・{{r.status}}</span></button>
+</sc-for>
+</div>
+</div>
+</sc-if>
+
+<div style="display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 24px; margin: 30px 8px 12px; padding-top: 22px; border-top: 1px solid #eceef1">
+<h2 style="margin: 0; font-size: 18px; font-weight: 700; color: #1f2433">規則演進<span style="font-size: 14px; font-weight: 400; color: #5a6070">　{{tlHint}}</span></h2>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 6px 14px; font-size: 13px; color: #5a6070">
+<span style="display: inline-flex; align-items: center; gap: 6px"><svg width="26" height="10" viewBox="0 0 26 10" aria-hidden="true"><path d="M1 5H20" stroke="#b08a4e" stroke-width="1.6"></path><path d="M19 1L25 5L19 9Z" fill="#b08a4e"></path></svg>修訂（基線 → 後續規則）</span>
+<sc-if value="{{hasSel}}" hint-placeholder-val="{{false}}"><span style="display: inline-flex; align-items: center; gap: 6px"><svg width="26" height="10" viewBox="0 0 26 10" aria-hidden="true"><path d="M1 5H20" stroke="#2f3b6f" stroke-width="1.6"></path><path d="M19 1L25 5L19 9Z" fill="#2f3b6f"></path></svg>引用</span></sc-if>
+<span>日期：基線制度用最初發布日，其他政策用資料庫記載的日期</span>
+</div>
+</div>
+
+<div style="overflow-x: auto; margin: 0 8px; border: 1px solid #eceef1; border-radius: 10px">
+<div style="position: relative; width: {{tl.w}}px; height: {{tl.h}}px">
+<svg width="{{tl.w}}" height="{{tl.h}}" role="img" aria-label="規則演進時間軸：依據、基線與各機關針對性政策依年份排列，箭頭標示基線制度被哪些後續規則修訂" style="position: absolute; left: 0; top: 0; display: block">
+<defs><marker id="lvAhZ" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L8 4L0 8Z" fill="#b08a4e"></path></marker><marker id="lvAhF" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L8 4L0 8Z" fill="#2f3b6f"></path></marker></defs>
+<sc-for list="{{tl.lanes}}" as="l" hint-placeholder-count="6"><rect x="0" y="{{l.y}}" width="{{tl.w}}" height="{{l.h}}" fill="{{l.bg}}"></rect><line x1="0" y1="{{l.y2}}" x2="{{tl.w}}" y2="{{l.y2}}" stroke="#eceef1"></line></sc-for>
+<sc-for list="{{tl.cols}}" as="c" hint-placeholder-count="10"><line x1="{{c.x}}" y1="26" x2="{{c.x}}" y2="{{tl.h}}" stroke="{{c.stroke}}" stroke-dasharray="{{c.dash}}"></line></sc-for>
+<sc-for list="{{tl.zai}}" as="p" hint-placeholder-count="8"><path d="{{p.d}}" fill="none" stroke="#b08a4e" stroke-width="1.6" opacity="{{p.op}}" marker-end="url(#lvAhZ)"></path></sc-for>
+<sc-for list="{{tl.focus}}" as="p" hint-placeholder-count="0"><path d="{{p.d}}" fill="none" stroke="#2f3b6f" stroke-width="1.4" opacity="0.85" marker-end="url(#lvAhF)"></path></sc-for>
+</svg>
+<sc-for list="{{tl.colLabels}}" as="c" hint-placeholder-count="10"><div style="position: absolute; left: {{c.x}}px; top: 8px; width: {{c.w}}px; text-align: center; font-size: 12px; font-weight: 700; color: #5a6070">{{c.label}}</div></sc-for>
+<sc-for list="{{tl.laneLabels}}" as="l" hint-placeholder-count="6"><div style="position: absolute; left: 10px; top: {{l.ty}}px; font-size: 12px; font-weight: 700; color: #3a3f4d">{{l.label}}</div></sc-for>
+<sc-for list="{{tl.chips}}" as="c" hint-placeholder-count="55"><button type="button" onClick="{{c.act}}" aria-label="{{c.aria}}" style="appearance: none; position: absolute; left: {{c.x}}px; top: {{c.y}}px; width: 52px; height: 20px; box-sizing: border-box; padding: 0; border: {{c.border}}; border-radius: 4px; background: {{c.bg}}; color: {{c.fg}}; font: inherit; font-size: 11px; font-weight: 700; line-height: 18px; text-align: center; cursor: pointer">{{c.label}}<sc-if value="{{c.ring}}" hint-placeholder-val="{{false}}"><span style="position: absolute; top: -4px; right: -4px; width: 6px; height: 6px; border: 1.2px solid #6b7080; border-radius: 50%; background: #ffffff"></span></sc-if></button></sc-for>
+</div>
+</div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"polOk":{"editor":null},"openPolicy":{"editor":null},"$preview":{"width":1340,"height":1500}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { sel: null };
+  }
+  renderVals() {
+    const B = window.__DATA_ZH || { D: { pol: [] }, CODE2: {}, TRACKS: [] };
+    const L = B.LAYERS || { layer: {}, basis: {}, zai: {}, cites: {}, unlinked: [] };
+    const P = {}; B.D.pol.forEach((p) => { P[p.code] = p; });
+    const disp = (c) => B.CODE2[c] || c;
+    const bucket = (p) => (p || '').startsWith('T5') ? '現行生效' : ((p || '').startsWith('T1') ? '已撤銷' : '推進中');
+    const ST = { '現行生效': ['#1f6f5c', '現行'], '推進中': ['#8a5d12', '推進中'], '已撤銷': ['#5a6070', '已撤銷'] };
+    const polOk = this.props.polOk || (() => true);
+    const open = (c) => () => { if (this.props.openPolicy) this.props.openPolicy(c); };
+    const sel = this.state.sel;
+    const related = new Set(sel ? [...(L.cites[sel] || []), ...(L.zai[sel] || [])] : []);
+    const unl = new Set(L.unlinked);
+    const isT = (c) => L.layer[c] === 'targeted';
+    const keep = (c) => !isT(c) || polOk(c);
+    const pick = (c) => () => this.setState({ sel: this.state.sel === c ? null : c });
+
+    const chipLook = (c) => {
+      const dashed = bucket(P[c].prog) === '推進中' ? 'dashed' : 'solid';
+      if (sel) {
+        if (related.has(c)) return { pad: '2px 6px', border: '2px ' + dashed + ' #2f3b6f', bg: '#e4e7f2', fg: '#1a2250' };
+        return { pad: '3px 7px', border: '1px ' + dashed + ' #e2e4e9', bg: '#f7f7f9', fg: '#6b7080' };
+      }
+      if (bucket(P[c].prog) === '已撤銷') return { pad: '3px 7px', border: '1px solid #c9ccd3', bg: '#eef0f3', fg: '#5f6472' };
+      return { pad: '3px 7px', border: '1px ' + dashed + ' #8a909c', bg: '#ffffff', fg: '#1f2433' };
+    };
+    const TRACK_LABEL = { EW: '白宮', EB: 'BIS 規則', LC: '國會', M: '索引' };
+    const allT = B.D.pol.filter((p) => isT(p.code));
+    const shownT = allT.filter((p) => keep(p.code));
+    const tracks = B.TRACKS.map((t) => t.code).filter((code) => code !== 'BL' && allT.some((p) => p.track === code)).map((code) => {
+      const ps = shownT.filter((p) => p.track === code).sort((a, b) => a.disp.localeCompare(b.disp, 'en', { numeric: true }));
+      const lit = sel ? '・相關 ' + ps.filter((p) => related.has(p.code)).length : '';
+      return {
+        head: code + '　' + (TRACK_LABEL[code] || code) + '　' + ps.length + lit,
+        chips: ps.map((p) => Object.assign({ label: p.disp, ring: unl.has(p.code), open: open(p.code), aria: p.disp + ' ' + p.item }, chipLook(p.code)))
+      };
+    });
+
+    const baseCodes = ['BL-2', 'BL-3', 'BL-4', 'BL-5', 'BL-6', 'BL-7', 'BL-8', 'BL-9'].filter((c) => P[c]);
+    const cardLook = (c) => sel === c
+      ? { bg: '#2f3b6f', border: '#1a2250', fg: '#ffffff', codeFg: '#d6dbf0', pressed: 'true' }
+      : (sel ? { bg: '#fdfbf7', border: '#ece3d2', fg: '#6b7080', codeFg: '#6b7080', pressed: 'false' }
+        : { bg: '#ffffff', border: '#d9c8a6', fg: '#46361d', codeFg: '#7a5a2e', pressed: 'false' });
+    const bases = baseCodes.map((c) => {
+      const nC = (L.cites[c] || []).length; const z = (L.zai[c] || []).map(disp);
+      const metric = [nC ? nC + ' 項政策引用' : '', z.length ? '修訂：' + z.join('、') : ''].filter(Boolean).join('・') || '—';
+      return Object.assign({ code: disp(c), name: P[c].item, metric, pick: pick(c) }, cardLook(c));
+    });
+    const ecraLook = sel === 'BL-1'
+      ? { bg: '#2f3b6f', border: '#1a2250', fg: '#ffffff', codeFg: '#d6dbf0', pressed: 'true' }
+      : (sel ? { bg: '#ffffff', border: '#dfe2ee', fg: '#6b7080', codeFg: '#6b7080', pressed: 'false' }
+        : { bg: '#ffffff', border: '#8f99c8', fg: '#1a2250', codeFg: '#4a5797', pressed: 'false' });
+    const ecra = Object.assign({ name: P['BL-1'] ? P['BL-1'].item : 'ECRA', n: (L.cites['BL-1'] || []).length, pick: pick('BL-1') }, ecraLook);
+
+    let detail = { kicker: '', name: '', summary: '', rows: [] };
+    if (sel && P[sel]) {
+      const rel = [...related].filter((c) => P[c] && keep(c)).sort((a, b) => (P[a].date || '').localeCompare(P[b].date || '') || a.localeCompare(b));
+      const byTrack = {}; const bySt = {};
+      rel.forEach((c) => { byTrack[P[c].track] = (byTrack[P[c].track] || 0) + 1; const s = ST[bucket(P[c].prog)][1]; bySt[s] = (bySt[s] || 0) + 1; });
+      const nCites = (L.cites[sel] || []).length; const nZai = (L.zai[sel] || []).length;
+      const head = [nCites ? nCites + ' 項針對性政策引用它' : '', nZai ? '後來由 ' + nZai + ' 項規則修訂' : ''].filter(Boolean).join('；');
+      detail = {
+        kicker: (L.layer[sel] === 'basis' ? '依據' : '基線制度') + '・' + disp(sel),
+        name: P[sel].item,
+        summary: head + '：' + Object.entries(byTrack).map(([k, v]) => k + ' ' + v).join('、') + '；' + ['現行', '推進中', '已撤銷'].filter((k) => bySt[k]).map((k) => k + ' ' + bySt[k]).join('、'),
+        rows: rel.map((c) => { const st = ST[bucket(P[c].prog)]; return { code: disp(c), item: P[c].item, year: (P[c].date || '').slice(0, 4), status: st[1], stFg: st[0], open: open(c) }; })
+      };
+    }
+
+    // timeline geometry (same rules as timeline_geo.py)
+    const COLS = [['2017 以前', 236], ['2018', 66], ['2019', 66], ['2020', 66], ['2021', 66], ['2022', 66], ['2023', 120], ['2024', 120], ['2025', 236], ['2026', 184]];
+    const LABEL_W = 100, CW = 52, CH = 20, GAP = 4, PADX = 6, PADY = 7, ROWH = 25, HEAD = 30;
+    const LANES = [['M', 'M 索引'], ['LC', 'LC 國會'], ['EW', 'EW 白宮'], ['EB', 'EB BIS'], ['baseline', '基線制度'], ['basis', '依據']];
+    const x0 = {}; let x = LABEL_W; COLS.forEach(([n, w]) => { x0[n] = [x, w]; x += w; }); const W = x;
+    const colOf = (c) => { const y = parseInt((P[c].date || '0').slice(0, 4), 10); return y <= 2017 ? '2017 以前' : String(y); };
+    const laneOf = (c) => L.layer[c] === 'targeted' ? P[c].track : L.layer[c];
+    const zaiT = new Set(Object.values(L.zai).flat());
+    const BASE_ORDER = ['BL-3', 'BL-4', 'BL-6', 'BL-7', 'BL-2', 'BL-5', 'BL-8', 'BL-9'];
+    const tlCodes = B.D.pol.map((p) => p.code).filter((c) => L.layer[c] && keep(c) && x0[colOf(c)]);
+    const cells = {};
+    tlCodes.slice().sort((a, b) => (zaiT.has(a) - zaiT.has(b)) || (P[a].date || '').localeCompare(P[b].date || '') || a.localeCompare(b))
+      .forEach((c) => { const k = laneOf(c) + '|' + colOf(c); (cells[k] = cells[k] || []).push(c); });
+    if (cells['baseline|2017 以前']) cells['baseline|2017 以前'] = BASE_ORDER.filter((c) => cells['baseline|2017 以前'].includes(c));
+    const perRow = (w) => Math.max(1, Math.floor((w - 2 * PADX + GAP) / (CW + GAP)));
+    const laneRows = {}; LANES.forEach(([ln]) => { laneRows[ln] = 1; });
+    Object.entries(cells).forEach(([k, cs]) => { const [ln, col] = k.split('|'); if (laneRows[ln] !== undefined) laneRows[ln] = Math.max(laneRows[ln], Math.ceil(cs.length / perRow(x0[col][1]))); });
+    const laneY = {}; let y = HEAD;
+    LANES.forEach(([ln]) => { const h = laneRows[ln] * ROWH + 2 * PADY - 5; laneY[ln] = [y, h]; y += h; });
+    const H = y + 4;
+    const pos = {};
+    Object.entries(cells).forEach(([k, cs]) => {
+      const [ln, col] = k.split('|'); if (!laneY[ln]) return;
+      const [cx, cw] = x0[col]; const [ly] = laneY[ln]; const n = perRow(cw);
+      cs.forEach((c, i) => { pos[c] = [cx + PADX + (i % n) * (CW + GAP), ly + PADY + Math.floor(i / n) * ROWH]; });
+    });
+    const tlLook = (c) => {
+      const lv = L.layer[c]; const dashed = bucket(P[c].prog) === '推進中' ? 'dashed' : 'solid';
+      if (sel) {
+        if (c === sel) return { bg: '#2f3b6f', border: '1.5px solid #1a2250', fg: '#ffffff' };
+        if (related.has(c)) return { bg: '#e4e7f2', border: '2px ' + dashed + ' #2f3b6f', fg: '#1a2250' };
+        return { bg: '#f7f7f9', border: '1px ' + (lv === 'targeted' ? dashed : 'solid') + ' #dfe2e7', fg: '#6b7080' };
+      }
+      if (lv === 'basis') return { bg: '#eef0f6', border: '1px solid #8f99c8', fg: '#1a2250' };
+      if (lv === 'baseline') return { bg: '#f6f1e7', border: '1px solid #c4a87e', fg: '#46361d' };
+      if (bucket(P[c].prog) === '已撤銷') return { bg: '#eef0f3', border: '1px solid #c9ccd3', fg: '#5f6472' };
+      return { bg: '#ffffff', border: '1px ' + dashed + ' #8a909c', fg: '#1f2433' };
+    };
+    const chips = Object.entries(pos).map(([c, [cx, cy]]) => Object.assign({
+      x: cx, y: cy, label: disp(c), ring: isT(c) && unl.has(c), aria: disp(c) + ' ' + P[c].item,
+      act: isT(c) ? open(c) : pick(c)
+    }, tlLook(c)));
+    const curveTop = (a, b) => { const ax = pos[a][0] + CW / 2, ay = pos[a][1], bx = pos[b][0] + CW / 2, by = pos[b][1] + CH + 2; return 'M' + ax + ' ' + ay + 'C' + ax + ' ' + (ay - 40) + ' ' + bx + ' ' + (by + 45) + ' ' + bx + ' ' + by; };
+    const curveRight = (a, b) => { const ax = pos[a][0] + CW, ay = pos[a][1] + CH / 2, bx = pos[b][0] + CW / 2, by = pos[b][1] + CH + 2; return 'M' + ax + ' ' + ay + 'C' + (ax + 60) + ' ' + ay + ' ' + bx + ' ' + (by + 45) + ' ' + bx + ' ' + by; };
+    const zai = []; Object.entries(L.zai).forEach(([s, ds]) => ds.forEach((d) => { if (pos[s] && pos[d]) zai.push({ d: curveTop(s, d), op: sel ? 0.35 : 0.9 }); }));
+    const focus = sel && pos[sel] ? (L.cites[sel] || []).filter((d) => pos[d]).map((d) => ({ d: curveRight(sel, d) })) : [];
+    const laneBg = { baseline: '#fbf7f0', basis: '#f3f4fa' };
+    const tl = {
+      w: W, h: H,
+      lanes: LANES.map(([ln], i) => ({ y: laneY[ln][0], h: laneY[ln][1], y2: laneY[ln][0] + laneY[ln][1], bg: laneBg[ln] || (i % 2 ? '#ffffff' : '#fafbfc') })),
+      laneLabels: LANES.map(([ln, label]) => ({ label, ty: Math.round(laneY[ln][0] + laneY[ln][1] / 2 - 9) })),
+      cols: COLS.map(([n]) => ({ x: x0[n][0], stroke: n === '2018' ? '#b9bdc6' : '#e3e6ea', dash: n === '2018' ? '3 3' : '' })),
+      colLabels: COLS.map(([n, w]) => ({ label: n, x: x0[n][0], w })),
+      zai, focus, chips
+    };
+    const nLit = sel ? [...related].filter((c) => isT(c) && keep(c)).length : 0;
+    return {
+      hint: sel ? '已標出' + (sel === 'BL-1' ? '引用 ECRA' : '引用或修訂「' + (P[sel] ? P[sel].item : '') + '」') + '的 ' + nLit + ' 項政策' : '點一項基線制度，會標出引用它或修訂它的政策',
+      targetedLine: shownT.length + ' 項' + (sel ? '・相關 ' + nLit : '・依發布機關'),
+      tracks, bases, nBase: baseCodes.length, ecra, wass: P['BL-10'] ? P['BL-10'].item : '瓦聖納協定',
+      nUnlinked: L.unlinked.length, hasSel: !!sel, detail,
+      clear: () => this.setState({ sel: null }),
+      tlHint: sel ? '「' + (P[sel] ? P[sel].item : '') + '」：哪些政策在什麼時候引用或修訂它' : '基線制度在 2020～2024 年被哪些規則修訂',
+      tl
+    };
+  }
+}
+</script>
+</body>
+</html>

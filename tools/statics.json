@@ -1,0 +1,156 @@
+{
+ "GLOSS": {
+  "FDPR": "Foreign Direct Product Rule｜外國直接產品規則：EAR 將管制延伸至「在境外、以美國技術／軟體／設備生產之外國產品」的機制。",
+  "EAR": "Export Administration Regulations｜出口管理條例：美國商務部 BIS 主管之兩用物項出口管制法規（15 CFR Parts 730–774）。",
+  "BIS": "Bureau of Industry and Security｜工業與安全局：美國商務部轄下執行 EAR 出口管制之機關。",
+  "ECRA": "Export Control Reform Act of 2018｜出口管制改革法：EAR 之現行成文法授權（50 U.S.C. §§4801–4852）。",
+  "IEEPA": "International Emergency Economic Powers Act｜國際緊急經濟權力法：總統於國家緊急狀態下管制經濟交易之授權（50 U.S.C. §1701 et seq.）。",
+  "ECCN": "Export Control Classification Number｜出口管制分類號：商業管制清單上識別物項管制類別之編號（如 3A090）。",
+  "CCL": "Commerce Control List｜商業管制清單：EAR 下依 ECCN 編列受管制物項之清單。",
+  "Entity List": "實體清單：BIS 維護之受管制對象名單；與列名實體之特定交易須事先申請出口許可。",
+  "IaaS": "Infrastructure as a Service｜基礎設施即服務：雲端業者提供運算、儲存、網路等基本資源供客戶部署運行之服務模式。",
+  "KYC": "Know Your Customer｜客戶身分識別：源自金融反洗錢之客戶身分查核與盡職調查程序。",
+  "CIP": "Customer Identification Program｜客戶識別計畫：IaaS 提供者依規執行之客戶身分識別程序。",
+  "VEU": "Validated End-User｜驗證最終用戶：BIS 事先核可之最終用戶，授權範圍內取得特定管制物項可免逐案許可。",
+  "MEU": "Military End User｜軍事最終用戶：EAR 對特定國家軍事最終用戶之端用途管制（§744.21）。",
+  "FEOC": "Foreign Entity of Concern｜受關注外國實體：美國法規對特定外國（含中國）關聯實體之指稱。",
+  "OSAT": "Outsourced Semiconductor Assembly and Test｜外包封裝測試：半導體後段封裝與測試之委外代工。",
+  "DPA": "Defense Production Act｜國防生產法：賦予政府為國防目的調動產業資源與資訊之授權。",
+  "FLOP": "Floating-Point Operation｜浮點運算：衡量運算量之單位；用於定義「先進」算力之數值門檻（如 10^26 FLOP）。",
+  "D:5": "EAR Country Group D:5：EAR 國別分組中出口管制最嚴格之一群（含中國、俄羅斯等）。",
+  "NPRM": "Notice of Proposed Rulemaking｜規則制定提案公告：行政程序中正式徵求公眾意見之法規草案。",
+  "IFR": "Interim Final Rule｜過渡最終規則：先行生效並同時徵求意見之法規形式。",
+  "SME": "Semiconductor Manufacturing Equipment｜半導體製造設備：製造晶片所需之光刻、沉積、蝕刻、佈植、量測、封測等設備；先進製程設備（EUV／DUV 光刻機）為對中出口管制核心卡點。",
+  "HBM": "High Bandwidth Memory｜高頻寬記憶體：堆疊式高速記憶體，為先進 AI 加速器訓練效能之關鍵瓶頸；HBM3／HBM3E 為先進世代，2024-12 列入 ECCN 3A090.c。",
+  "TPP": "Total Processing Performance｜總處理效能：BIS 自 2023 年改採之先進算力管制計算基礎，綜合運算速度、精度、記憶體頻寬，取代早期「位元×TOPS」單一指標以防規避。",
+  "TOPS": "Tera Operations Per Second｜每秒兆次運算：衡量晶片運算吞吐量之單位；BIS 早期以「位元×TOPS」定義先進算力門檻，後由 TPP 取代。",
+  "GPU": "Graphics Processing Unit｜圖形處理器：具大規模平行運算能力之處理器，為 AI 訓練主流加速器（如 NVIDIA H100／H200）。",
+  "EDA": "Electronic Design Automation｜電子設計自動化：晶片設計所需之軟體工具（Cadence、Synopsys 等）；因美國主導，成為 FDPR 長臂管轄之關鍵卡點。",
+  "DUV": "Deep Ultraviolet Lithography｜深紫外光微影：技術等級低於 EUV 之微影設備；中國藉進口荷蘭 DUV 機台以多重曝光生產先進製程，為 MATCH Act 對齊重點。",
+  "EUV": "Extreme Ultraviolet Lithography｜極紫外光微影：最先進製程必需之微影設備，全球僅荷蘭 ASML 生產；屬對中管制核心。",
+  "DRAM": "Dynamic Random-Access Memory｜動態隨機存取記憶體：主流揮發性記憶體；其總頻寬為 H200／MI325X 等晶片 case-by-case 管制門檻指標之一。",
+  "CSP": "Cloud Service Provider｜雲端服務商：提供雲端運算資源之業者（AWS、Azure、Google Cloud 等）；為雲端／遠距算力管制之主要適用對象。",
+  "footnote 4": "FDPR Footnote 4｜FDPR 第 4 註腳：2022-10 規則設立之 Entity List 註腳，對列名之特定中國實體啟動 FDPR，及於含美技術之外國產品。",
+  "footnote 5": "FDPR Footnote 5｜FDPR 第 5 註腳：2024-12 規則設立之 FDPR 註腳，將長臂管轄擴及更廣之多國實體名單。",
+  "NAC": "Notified Advanced Computing｜通知型先進運算授權例外：EAR §740.8 之授權例外，符合條件之先進運算交易可免逐案許可但須通報 BIS。",
+  "ACA": "Advanced Computing Authorized｜先進運算授權例外：EAR §740.8 之授權例外，對符合條件之先進運算物項予以授權出口。",
+  "GP10": "General Prohibition Ten｜一般禁止第 10 條：EAR 禁止對「明知違反或將導致違反 EAR」之物項進行交易；2025-05 guidance 據此將華為 Ascend 系列列為推定違規。",
+  "RFF": "Restricted Fabrication Facility｜受限製造設施：EAR 授權例外之一，規範與受限半導體製造設施相關之交易條件。",
+  "MIEU": "Military-Intelligence End Use/User｜軍事情報終端用途／用戶：EAR §744.22 對軍事情報終端用途／用戶之管制，適用於所有 EAR 物項及美國人之支援行為。",
+  "NEA": "National Emergencies Act｜國家緊急狀態法：規範總統宣告國家緊急狀態之程序；與 IEEPA 併用，為雲端、對外投資等管制之授權軌。",
+  "ERC": "End-User Review Committee｜最終用戶審查委員會：BIS 主持之跨部會委員會，決定 Entity List 之列名與除名。",
+  "OICTS": "Office of Information and Communications Technology and Services｜資通訊技術與服務辦公室：商務部專責 ICT 供應鏈安全之單位，為 IaaS CIP 規則與 Connected Vehicles 規則之執行單位。",
+  "ITA": "International Trade Administration｜國際貿易署：商務部推廣美國商業利益之單位（有別於管出口許可之 BIS），主管 American AI Exports Program。",
+  "OFAC": "Office of Foreign Assets Control｜外國資產管制辦公室：財政部執行經濟與貿易制裁之單位，維護 SDN 制裁名單。",
+  "SDN": "Specially Designated Nationals List｜特別指定國民名單：OFAC 之制裁名單；名單上對象資產遭凍結、美國人禁與其交易。",
+  "AECA": "Arms Export Control Act｜武器出口管制法：規範美國軍售之成文法；其「國會事前通知＋審查期」機制為 AI OVERWATCH Act（E-4）所借用。",
+  "ECO": "Export Control Officer｜出口管制官：BIS 派駐海外、執行最終用途查證與合規外展之人員；其人力不足為多項執行強化立法之背景。",
+  "TCP": "Technology Control Plan｜技術控制計畫：VEU 等授權申請須提交之文件，載明防止受控技術外流之內部管控措施。",
+  "HFAC": "House Foreign Affairs Committee｜眾議院外交事務委員會：美國聯邦眾議院之外交委員會；多數晶片／AI 出口管制法案於此 markup（審查表決）。",
+  "NDAA": "National Defense Authorization Act｜國防授權法：每年通過之國防政策與預算授權法；常為其他政策之立法載體（如 GAIN AI Act 曾擬納入）。",
+  "CBO": "Congressional Budget Office｜國會預算辦公室：為國會提供法案成本估算之無黨派機構。",
+  "CHIPS Act": "CHIPS and Science Act (2022)｜晶片與科學法：2022 年成法，提供半導體製造補助並設「防護欄」（15 CFR Part 231），限制受補助者於中國等國擴產。",
+  "OISP": "Outbound Investment Security Program｜對外投資安全計畫：依 EO 14105 設立、財政部主管之對外投資審查機制，管制美國人對中國半導體／量子／AI 之敏感投資（見 A-3）。",
+  "OMB": "Office of Management and Budget｜管理及預算辦公室：白宮轄下機關，主管預算編製與法規審查（轄下 OIRA 審查重大法規）。",
+  "DOJ": "Department of Justice｜司法部：聯邦執法與刑事追訴機關；出口管制刑事案件由其起訴。",
+  "OSTP": "Office of Science and Technology Policy｜科技政策辦公室：白宮科技政策幕僚機關。",
+  "NIST": "National Institute of Standards and Technology｜國家標準暨技術研究院：商務部轄下標準與技術機構，主導 AI 風險與安全標準。",
+  "APNSA": "Assistant to the President for National Security Affairs｜國家安全顧問：總統首席國安幕僚。",
+  "SIA": "Semiconductor Industry Association｜半導體產業協會：美國半導體業界代表組織。",
+  "CBP": "Customs and Border Protection｜海關及邊境保護局：國土安全部轄下機關，於邊境執行進出口查驗。",
+  "EXIM": "Export-Import Bank of the United States｜美國進出口銀行：聯邦出口信貸機構，為美國出口提供融資與保證。",
+  "AAEP": "American AI Exports Program｜美國 AI 出口計畫：依 EO 14320 設立、商務部 ITA 主管之 AI 全棧出口推廣計畫（見 G-1a）。",
+  "RASA": "Remote Access Security Act｜遠距存取安全法：擬修正 ECRA、授權 BIS 管制 remote access 之法案（見 D-1）。",
+  "MATCH Act": "Multilateral Alignment of Technology Controls on Hardware Act｜硬體技術管制多邊對齊法：要求盟國對 DUV 等半導體設備管制對齊、逾期啟動 FDPR 之法案（見 E-5）。",
+  "GAIN AI Act": "（見 F-4）：要求先進 AI 晶片於出口前須優先滿足美國國內客戶需求之國會法案。",
+  "STRIDE Act": "Semiconductor Technology Resilience, Integrity, and Defense Enhancement Act｜半導體技術韌性、完整性與防衛強化法：指示國務院主導盟國半導體出口管制多邊對齊之法案（H.R. 6058，見 E-8）。",
+  "FR": "Federal Register｜聯邦公報：美國聯邦政府公告法規、規則與通知之官方刊物（引用格式如「90 FR 12345」）。",
+  "CFR": "Code of Federal Regulations｜聯邦法規彙編：聯邦行政法規之彙編（引用格式如「15 CFR Part 744」）。"
+ },
+ "GRP_EN": {
+  "Chip Production Inputs": "Chip Production Inputs",
+  "Semiconductor Supply Chain": "Semiconductor Supply Chain",
+  "Data Center Infra Inputs": "Data Center Infrastructure Inputs",
+  "Hardware Operations": "Hardware Operations",
+  "Algorithms and Data": "Algorithms and Data",
+  "AI Training": "AI Training",
+  "End-Use": "End Use"
+ },
+ "nodes": [
+  {
+   "id": "N1",
+   "name": "Electronic Design Automation and Core IP",
+   "grp": "Chip Production Inputs"
+  },
+  {
+   "id": "N2",
+   "name": "Semiconductor Manufacturing Equipment",
+   "grp": "Chip Production Inputs"
+  },
+  {
+   "id": "N3",
+   "name": "Materials",
+   "grp": "Chip Production Inputs"
+  },
+  {
+   "id": "N4",
+   "name": "Design",
+   "grp": "Semiconductor Supply Chain"
+  },
+  {
+   "id": "N5",
+   "name": "Fabrication",
+   "grp": "Semiconductor Supply Chain"
+  },
+  {
+   "id": "N6",
+   "name": "Assembly, Testing, and Packaging",
+   "grp": "Semiconductor Supply Chain"
+  },
+  {
+   "id": "N7",
+   "name": "AI Compute Hardware Products / Controlled Hardware Items",
+   "grp": "Semiconductor Supply Chain"
+  },
+  {
+   "id": "N8",
+   "name": "Space, Cooling, Electronics, Networking, Security",
+   "grp": "Data Center Infra Inputs"
+  },
+  {
+   "id": "N9",
+   "name": "Power, Water, Connectivity",
+   "grp": "Data Center Infra Inputs"
+  },
+  {
+   "id": "N10",
+   "name": "Data Center Infrastructure Construction",
+   "grp": "Hardware Operations"
+  },
+  {
+   "id": "N11",
+   "name": "Data Center Infrastructure Operation",
+   "grp": "Hardware Operations"
+  },
+  {
+   "id": "N12",
+   "name": "Compute Provision / Remote Access",
+   "grp": "Hardware Operations"
+  },
+  {
+   "id": "N13",
+   "name": "Algorithms, Data",
+   "grp": "Algorithms and Data"
+  },
+  {
+   "id": "N14",
+   "name": "AI Training",
+   "grp": "AI Training"
+  },
+  {
+   "id": "N15",
+   "name": "End Use",
+   "grp": "End-Use"
+  }
+ ]
+}

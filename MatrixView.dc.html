@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<title>標的矩陣</title>
+<script src="./vendor/react.js"></script>
+<script src="./vendor/react-dom.js"></script>
+<script src="./support.js"></script>
+<script src="./assets/dfdd7576b54cc91759c0ad9b20d3b29a.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&amp;family=Noto+Serif+TC:wght@700&amp;display=swap">
+<style>
+body{margin:0}
+</style>
+</helmet>
+<div style="font-family: 'Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei', sans-serif; color: #1f2433; background: #ffffff">
+
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; margin: 0 8px 18px; padding: 12px 16px; background: #f7f8fa; border-radius: 12px">
+<span style="font-size: 13.5px; font-weight: 700; color: #1f2433">作用方向</span>
+<div role="img" aria-label="{{dirAria}}" style="display: flex; gap: 2px; width: 320px; max-width: 100%; height: 10px; border-radius: 5px; overflow: hidden">
+<sc-for list="{{dirBar}}" as="d" hint-placeholder-count="5"><span style="flex: {{d.n}} 1 0; background: {{d.color}}"></span></sc-for>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 13px; color: #5a6070">
+<sc-for list="{{dirBar}}" as="d" hint-placeholder-count="5"><span style="display: inline-flex; align-items: center; gap: 6px"><span style="width: 9px; height: 9px; border-radius: 2px; background: {{d.color}}"></span>{{d.label}} {{d.n}}</span></sc-for>
+</div>
+<span style="margin-left: auto; font-size: 13.5px; color: #5a6070">點格子看這個組合的工具；點左邊的標的或上方的工具大類，看整列或整欄的工具。</span>
+</div>
+
+<div style="display: flex; flex-wrap: wrap; align-items: flex-start; gap: 20px; margin: 0 8px">
+
+<div style="flex: 999 1 820px; min-width: 0; overflow-x: auto">
+<div style="min-width: 820px">
+
+<div style="display: grid; grid-template-columns: 200px repeat(9, minmax(0, 1fr)) 84px; align-items: end; padding-bottom: 8px; border-bottom: 1px solid #dde0e5">
+<div style="display: flex; flex-direction: column; gap: 2px; padding: 0 0 6px 4px; font-size: 12.5px; color: #5a6070"><span>列：管制標的（{{nCat}} 類）</span><span>欄：政策工具大類（{{nMacro}} 類）</span></div>
+<sc-for list="{{cols}}" as="c" hint-placeholder-count="9">
+<button type="button" onClick="{{c.pick}}" aria-pressed="{{c.pressed}}" style="appearance: none; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 4px; min-height: 92px; margin: 0 2px; padding: 6px 2px; background: {{c.bg}}; border: {{c.border}}; border-radius: 8px; font: inherit; text-align: center; cursor: pointer"><span style="font-size: 12.5px; font-weight: 700; line-height: 1.35; color: {{c.nameFg}}">{{c.name}}</span><span style="font-size: 12px; color: {{c.nFg}}">{{c.n}} 項</span></button>
+</sc-for>
+<div style="display: flex; align-items: flex-end; justify-content: flex-end; padding: 0 6px 6px 0; font-size: 12.5px; font-weight: 700; color: #1f2433">標的合計</div>
+</div>
+
+<sc-for list="{{rows}}" as="r" hint-placeholder-count="13">
+<div style="display: grid; grid-template-columns: 200px repeat(9, minmax(0, 1fr)) 84px; align-items: center; background: {{r.rowBg}}; border-bottom: 1px solid #eceef1">
+<button type="button" onClick="{{r.pick}}" aria-pressed="{{r.selected}}" style="appearance: none; display: flex; flex-direction: column; align-items: flex-start; justify-content: center; gap: 2px; margin: 5px 8px 5px 4px; padding: 7px 12px; min-height: 48px; background: {{r.lbBg}}; border: 1px solid {{r.lbBorder}}; border-radius: 8px; font: inherit; text-align: left; cursor: pointer"><span style="font-size: 14px; font-weight: 700; color: {{r.lbFg}}">{{r.name}}</span><sc-if value="{{r.hasSub}}" hint-placeholder-val="{{false}}"><span style="font-size: 12px; color: {{r.lbSub}}">{{r.sub}}</span></sc-if></button>
+<sc-if value="{{r.empty}}" hint-placeholder-val="{{false}}"><div style="grid-column: span 9; display: flex; align-items: center; justify-content: center; min-height: 58px; font-size: 13px; color: #6b7080">本類目前沒有對應工具</div></sc-if>
+<sc-if value="{{r.nonEmpty}}" hint-placeholder-val="{{true}}">
+<sc-for list="{{r.cells}}" as="c" hint-placeholder-count="9">
+<sc-if value="{{c.has}}" hint-placeholder-val="{{true}}"><button type="button" onClick="{{c.pick}}" aria-label="{{c.aria}}" style="appearance: none; border: 0; background: none; padding: 0; min-height: 58px; display: flex; align-items: center; justify-content: center; font: inherit; cursor: pointer"><span style="display: flex; align-items: center; justify-content: center; width: {{c.d}}px; height: {{c.d}}px; border-radius: 50%; background: {{c.bg}}; color: {{c.fg}}; font-size: {{c.fs}}px; font-weight: 700; box-shadow: {{c.ring}}">{{c.n}}</span></button></sc-if>
+<sc-if value="{{c.none}}" hint-placeholder-val="{{false}}"><div style="display: flex; align-items: center; justify-content: center; min-height: 58px"><span style="width: 4px; height: 4px; border-radius: 50%; background: #d5d8de"></span></div></sc-if>
+</sc-for>
+</sc-if>
+<div style="display: flex; align-items: center; justify-content: flex-end; gap: 8px; padding-right: 6px"><span style="display: flex; width: 44px; height: 6px; border-radius: 3px; background: #f3eadb"><span style="width: {{r.barW}}px; border-radius: 3px; background: #c4a87e"></span></span><span style="min-width: 24px; text-align: right; font-size: 15px; font-weight: 700; color: {{r.totFg}}">{{r.total}}</span></div>
+</div>
+</sc-for>
+
+<div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 24px; margin-top: 16px">
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; font-size: 13px; color: #5a6070">
+<span style="font-weight: 700; color: #1f2433">工具數</span>
+<span style="display: inline-flex; align-items: center; gap: 6px"><span style="width: 26px; height: 26px; border-radius: 50%; background: #e4e7f2"></span>1–2</span>
+<span style="display: inline-flex; align-items: center; gap: 6px"><span style="width: 32px; height: 32px; border-radius: 50%; background: #c5cbe4"></span>3–5</span>
+<span style="display: inline-flex; align-items: center; gap: 6px"><span style="width: 38px; height: 38px; border-radius: 50%; background: #8f99c8"></span>6–9</span>
+<span style="display: inline-flex; align-items: center; gap: 6px"><span style="width: 44px; height: 44px; border-radius: 50%; background: #4a5797"></span>10–19</span>
+<span style="display: inline-flex; align-items: center; gap: 6px"><span style="width: 50px; height: 50px; border-radius: 50%; background: #2f3b6f"></span>20 以上</span>
+</div>
+<p style="margin: 0; max-width: 520px; font-size: 13px; line-height: 1.7; color: #5a6070">每欄上方的數字是該大類的工具數。一項工具可能同時涉及好幾個標的，所以同一欄各格加起來可能比上方數字大。</p>
+</div>
+
+</div>
+</div>
+
+<sc-if value="{{hasSel}}" hint-placeholder-val="{{false}}">
+<aside aria-label="焦點詳情" style="flex: 1 1 380px; min-width: 0; max-width: 100%; display: flex; flex-direction: column; gap: 18px; padding: 20px; border: 1px solid #dde0e5; border-radius: 14px; background: #fcfcfd; box-sizing: border-box">
+<div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 12px">
+<div style="display: flex; flex-direction: column; gap: 4px">
+<span style="font-size: 12.5px; font-weight: 700; letter-spacing: 0.12em; color: #7a5a2e">{{sel.kicker}}</span>
+<h2 style="margin: 0; font-family: 'Noto Serif TC', serif; font-weight: 700; font-size: 24px; color: #1a2250">{{sel.name}}</h2>
+<sc-if value="{{sel.hasSub}}" hint-placeholder-val="{{false}}"><p style="margin: 0; font-size: 14px; color: #5a6070">{{sel.sub}}</p></sc-if>
+</div>
+<button type="button" aria-label="關閉焦點詳情" onClick="{{clear}}" style="appearance: none; flex: none; width: 44px; height: 44px; border: 1px solid #dde0e5; border-radius: 10px; background: #ffffff; font: inherit; font-size: 20px; line-height: 1; color: #5a6070; cursor: pointer">×</button>
+</div>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px">
+<div style="display: flex; flex-direction: column; gap: 2px; padding: 12px; background: #ffffff; border: 1px solid #eceef1; border-radius: 10px"><span style="font-size: 24px; font-weight: 700">{{sel.nTool}}</span><span style="font-size: 12.5px; color: #5a6070">項工具</span></div>
+<div style="display: flex; flex-direction: column; gap: 2px; padding: 12px; background: #ffffff; border: 1px solid #eceef1; border-radius: 10px"><span style="font-size: 24px; font-weight: 700">{{sel.nPol}}</span><span style="font-size: 12.5px; color: #5a6070">項政策</span></div>
+<div style="display: flex; flex-direction: column; gap: 2px; padding: 12px; background: #ffffff; border: 1px solid #eceef1; border-radius: 10px"><span style="font-size: 24px; font-weight: 700">{{sel.nMacro}}</span><span style="font-size: 12.5px; color: #5a6070">{{sel.thirdLabel}}</span></div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<h3 style="margin: 0; font-size: 14px; font-weight: 700">作用方向</h3>
+<div role="img" aria-label="{{sel.dirAria}}" style="display: flex; gap: 2px; height: 10px; border-radius: 5px; overflow: hidden">
+<sc-for list="{{sel.dirBar}}" as="d" hint-placeholder-count="4"><span style="flex: {{d.n}} 1 0; background: {{d.color}}"></span></sc-for>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 13px; color: #5a6070">
+<sc-for list="{{sel.dirBar}}" as="d" hint-placeholder-count="4"><span style="display: inline-flex; align-items: center; gap: 6px"><span style="width: 9px; height: 9px; border-radius: 2px; background: {{d.color}}"></span>{{d.label}} {{d.n}}</span></sc-for>
+</div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<h3 style="margin: 0; font-size: 14px; font-weight: 700">{{sel.groupHead}}</h3>
+<sc-for list="{{sel.groups}}" as="g" hint-placeholder-count="6">
+<div style="border: 1px solid {{g.border}}; border-radius: 12px; background: #ffffff; overflow: hidden">
+<button type="button" aria-expanded="{{g.open}}" onClick="{{g.toggle}}" style="appearance: none; display: flex; align-items: center; gap: 12px; width: 100%; min-height: 48px; padding: 10px 14px; border: 0; background: {{g.headBg}}; font: inherit; text-align: left; cursor: pointer">
+<span style="flex: none; width: {{sel.labW}}px; font-size: 14.5px; font-weight: 700; line-height: 1.4; color: {{sel.labFg}}">{{g.label}}</span>
+<span style="flex: 1 1 auto; height: 6px; border-radius: 3px; background: #eef0f3; display: flex"><span style="width: {{g.pct}}%; border-radius: 3px; background: #91b48f"></span></span>
+<span style="flex: none; min-width: 26px; text-align: right; font-size: 15px; font-weight: 700; color: #213b25">{{g.n}}</span>
+</button>
+<sc-if value="{{g.open}}" hint-placeholder-val="{{false}}">
+<div style="display: flex; flex-direction: column; gap: 8px; padding: 12px 14px 14px">
+<div style="display: flex; flex-wrap: wrap; gap: 6px">
+<sc-for list="{{g.grps}}" as="q" hint-placeholder-count="3"><span style="font-size: 12.5px; padding: 4px 10px; border-radius: 999px; background: #eef0f3; color: #3a3f4d">{{q.name}} {{q.n}}</span></sc-for>
+</div>
+<sc-for list="{{g.tools}}" as="t" hint-placeholder-count="4">
+<button type="button" onClick="{{t.open}}" style="appearance: none; display: flex; flex-direction: column; gap: 6px; width: 100%; padding: 10px 12px; border: 1px solid #eceef1; border-radius: 10px; background: #ffffff; font: inherit; text-align: left; cursor: pointer">
+<span style="display: flex; align-items: center; justify-content: space-between; gap: 8px; width: 100%"><span style="font-size: 12px; font-weight: 700; padding: 2px 7px; border-radius: 5px; background: #eef0f6; color: #2f3b6f">{{t.code}}</span><span style="font-size: 12px; padding: 2px 8px; border-radius: 999px; background: {{t.stBg}}; color: {{t.stFg}}">{{t.status}}</span></span>
+<span style="font-size: 14px; line-height: 1.55; color: #1f2433">{{t.name}}</span>
+<span style="display: inline-flex; align-items: center; gap: 6px; font-size: 12.5px; color: #5a6070"><span style="width: 8px; height: 8px; border-radius: 50%; background: {{t.dirColor}}"></span>{{t.dir}}</span>
+</button>
+</sc-for>
+</div>
+</sc-if>
+</div>
+</sc-for>
+</div>
+</aside>
+</sc-if>
+
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"toolOk":{"editor":null},"openPolicy":{"editor":null},"$preview":{"width":1340,"height":1100}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { axis: 'row', sel: null, open: null };
+  }
+  renderVals() {
+    const B = window.__DATA_ZH || { D: { cats: [], macros: [], cells: {} }, CODE_OF: {}, CODE2: {} };
+    const D = B.D;
+    const DIRS = [['限制', '#7a1f2b'], ['監測', '#b07a1e'], ['促進', '#1f6f5c'], ['監督制衡', '#6b7280'], ['制度設計', '#6b5b95']];
+    const DIRC = Object.fromEntries(DIRS);
+    const bucket = (p) => (p || '').startsWith('T5') ? '現行生效' : ((p || '').startsWith('T1') ? '已撤銷' : '推進中');
+    const ST = { '現行生效': ['#e6f2ef', '#1f6f5c', '現行生效'], '推進中': ['#f7eedc', '#8a5d12', '推進中'], '已撤銷': ['#eef0f3', '#5a6070', '已撤銷／失效'] };
+    const toolOk = this.props.toolOk || (() => true);
+    const keep = (t) => toolOk(t.no);
+    const list = (cat, m) => (D.cells[cat + '|||' + m] || []).filter(keep);
+    const tier = (n) => n >= 20 ? [50, '#2f3b6f', '#ffffff', 15] : n >= 10 ? [44, '#4a5797', '#ffffff', 14] : n >= 6 ? [38, '#8f99c8', '#1a2250', 13.5] : n >= 3 ? [32, '#c5cbe4', '#1a2250', 13] : [26, '#e4e7f2', '#1a2250', 12.5];
+    const split = (name) => { const m = name.match(/^(.*?)（(.*)）$/); return m ? [m[1], m[2]] : [name, '']; };
+    const dirBarOf = (tools) => DIRS.map(([label, color]) => ({ label, color, n: tools.filter((t) => t.dir === label).length })).filter((d) => d.n > 0);
+    // axis 'row': sel = 標的, open = 展開的大類；axis 'col': sel = 大類, open = 展開的標的
+    const axis = this.state.axis; const sel = this.state.sel; const open = this.state.open;
+    const rowSel = axis === 'row' ? sel : null; const colSel = axis === 'col' ? sel : null;
+
+    const allKept = {};
+    D.cats.forEach((c) => D.macros.forEach((m) => list(c, m).forEach((t) => { allKept[t.no] = t; })));
+    const allTools = Object.values(allKept);
+
+    const colN = D.macros.map((m) => { const s = new Set(); D.cats.forEach((c) => list(c, m).forEach((t) => s.add(t.no))); return s.size; });
+    const rowsRaw = D.cats.map((cat) => {
+      const per = D.macros.map((m) => list(cat, m));
+      const uniq = new Set(); per.forEach((l) => l.forEach((t) => uniq.add(t.no)));
+      return { cat, per, total: uniq.size };
+    });
+    const maxTot = Math.max(1, ...rowsRaw.map((r) => r.total));
+    const pickRow = (cat, macro) => () => {
+      if (macro) { this.setState({ axis: 'row', sel: cat, open: macro }); return; }
+      const r = rowsRaw.find((x) => x.cat === cat);
+      const best = D.macros.map((m, i) => [m, r.per[i].length]).filter((x) => x[1] > 0).sort((a, b) => b[1] - a[1])[0];
+      this.setState({ axis: 'row', sel: cat, open: best ? best[0] : null });
+    };
+    const pickCol = (m) => () => {
+      const i = D.macros.indexOf(m);
+      const best = rowsRaw.map((r) => [r.cat, r.per[i].length]).filter((x) => x[1] > 0).sort((a, b) => b[1] - a[1])[0];
+      this.setState({ axis: 'col', sel: m, open: best ? best[0] : null });
+    };
+    const colIdx = colSel !== null ? D.macros.indexOf(colSel) : -1;
+
+    const rows = rowsRaw.map((r) => {
+      const isSel = rowSel === r.cat;
+      const dim = (rowSel !== null && !isSel) || (colIdx >= 0 && r.per[colIdx].length === 0);
+      const [name, sub] = split(r.cat);
+      return {
+        name, sub, hasSub: !!sub, selected: isSel ? 'true' : 'false',
+        pick: pickRow(r.cat, null),
+        rowBg: isSel ? '#f3f4fa' : '#ffffff',
+        lbBg: isSel ? '#2f3b6f' : (dim ? '#f7f7f9' : '#fbf7f0'),
+        lbBorder: isSel ? '#1a2250' : (dim ? '#e2e4e9' : '#e5d0ac'),
+        lbFg: isSel ? '#ffffff' : (dim ? '#646976' : '#46361d'),
+        lbSub: isSel ? '#d6dbf0' : (dim ? '#646976' : '#6b5a3a'),
+        empty: r.total === 0, nonEmpty: r.total > 0,
+        total: r.total, totFg: rowSel !== null && !isSel ? '#646976' : '#1f2433',
+        barW: Math.round(r.total / maxTot * 44),
+        cells: r.per.map((l, i) => {
+          const n = l.length; const [d, bg, fg, fs] = tier(n);
+          const cellDim = (rowSel !== null && !isSel) || (colIdx >= 0 && i !== colIdx);
+          const ring = (isSel && open === D.macros[i]) || (i === colIdx && open === r.cat) ? '0 0 0 3px #f3f4fa, 0 0 0 5px #3d6b41' : 'none';
+          return {
+            has: n > 0, none: n === 0, n, d, fs,
+            bg: cellDim ? '#eceef1' : bg, fg: cellDim ? '#646976' : fg, ring,
+            aria: name + ' × ' + D.macros[i] + '：' + n + ' 項',
+            pick: pickRow(r.cat, D.macros[i])
+          };
+        })
+      };
+    });
+
+    const cols = D.macros.map((m, i) => {
+      const isC = colSel === m; const hot = rowSel !== null && open === m; const dimC = colSel !== null && !isC;
+      return {
+        name: m, n: colN[i], pressed: isC ? 'true' : 'false', pick: pickCol(m),
+        bg: isC ? '#2f5a33' : (hot ? '#cde2ca' : (dimC ? '#f7f8f7' : '#f3f8f2')),
+        border: isC ? '2px solid #1f4224' : (hot ? '2px solid #3d6b41' : (dimC ? '1px solid #e2e8e1' : '1px solid #c1dabe')),
+        nameFg: isC ? '#ffffff' : (dimC ? '#6b7080' : '#213b25'), nFg: isC ? '#d8ead6' : (dimC ? '#8a909c' : '#33603a')
+      };
+    });
+
+    // Panel groups: row mode groups a 標的's tools by 大類; column mode groups a 大類's tools by 標的.
+    const buildGroups = (groups) => {
+      const maxG = Math.max(1, ...groups.map((g) => g.l.length));
+      return groups.map((g) => {
+        const isOpen = open === g.key;
+        const grpCount = {}; g.l.forEach((t) => { grpCount[t.grp] = (grpCount[t.grp] || 0) + 1; });
+        return {
+          label: g.label, n: g.l.length, pct: Math.round(g.l.length / maxG * 100),
+          open: isOpen, border: isOpen ? '#91b48f' : '#e3e6ea', headBg: isOpen ? '#f3f8f2' : '#ffffff',
+          toggle: () => this.setState({ open: isOpen ? null : g.key }),
+          grps: Object.entries(grpCount).sort((a, b) => b[1] - a[1]).map(([name2, n]) => ({ name: name2, n })),
+          tools: g.l.slice().sort((a, b) => a.no - b.no).map((t) => {
+            const pid = B.CODE_OF[String(t.no)]; const st = ST[bucket(t.prog)];
+            return {
+              code: B.CODE2[pid] || pid, name: t.tool, dir: t.dir, dirColor: DIRC[t.dir] || '#6b7280',
+              status: st[2], stBg: st[0], stFg: st[1],
+              open: () => { if (this.props.openPolicy) this.props.openPolicy(pid); }
+            };
+          })
+        };
+      });
+    };
+    const summary = (raw) => {
+      const tools = {}; raw.forEach((g) => g.l.forEach((t) => { tools[t.no] = t; }));
+      const tl = Object.values(tools); const dirBar = dirBarOf(tl);
+      return { nTool: tl.length, nPol: new Set(tl.map((t) => B.CODE_OF[String(t.no)])).size, dirBar, dirAria: '作用方向：' + dirBar.map((d) => d.label + ' ' + d.n).join('、') };
+    };
+    let selV = { kicker: '', thirdLabel: '', groupHead: '', labW: 128, labFg: '#213b25', name: '', sub: '', hasSub: false, nTool: 0, nPol: 0, nMacro: 0, dirBar: [], dirAria: '', groups: [] };
+    if (rowSel !== null) {
+      const r = rowsRaw.find((x) => x.cat === rowSel);
+      const raw = D.macros.map((m, i) => ({ key: m, label: m, l: r.per[i] })).filter((g) => g.l.length > 0).sort((a, b) => b.l.length - a.l.length);
+      const [name, sub] = split(rowSel);
+      selV = Object.assign({ kicker: '管制標的', thirdLabel: '類工具大類', groupHead: '依工具大類', labW: 128, labFg: '#213b25', name, sub, hasSub: !!sub, nMacro: raw.length, groups: buildGroups(raw) }, summary(raw));
+    } else if (colSel !== null) {
+      const raw = rowsRaw.map((r) => ({ key: r.cat, label: split(r.cat)[0], l: r.per[colIdx] })).filter((g) => g.l.length > 0).sort((a, b) => b.l.length - a.l.length);
+      selV = Object.assign({ kicker: '政策工具大類', thirdLabel: '類管制標的', groupHead: '依管制標的（一項工具可涉及多個標的）', labW: 150, labFg: '#46361d', name: colSel, sub: '', hasSub: false, nMacro: raw.length, groups: buildGroups(raw) }, summary(raw));
+    }
+    const dirBar = dirBarOf(allTools);
+    return {
+      nCat: D.cats.length, nMacro: D.macros.length, cols, rows,
+      dirBar, dirAria: '作用方向：' + dirBar.map((d) => d.label + ' ' + d.n).join('、'),
+      hasSel: rowSel !== null || colSel !== null, sel: selV,
+      clear: () => this.setState({ sel: null, open: null })
+    };
+  }
+}
+</script>
+</body>
+</html>
